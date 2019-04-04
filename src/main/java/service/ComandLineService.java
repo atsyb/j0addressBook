@@ -37,6 +37,7 @@ public class ComandLineService {
                     break;
                 }
                 case 4: {
+                    //service.allContact();
                     break;
                 }
                 case 0: {
