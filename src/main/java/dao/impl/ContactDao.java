@@ -1,7 +1,7 @@
-package dao.imp;
+package dao.impl;
 
 import dao.IContactDao;
-import entity.imp.Contact;
+import entity.Contact;
 
 public class ContactDao implements IContactDao {
 

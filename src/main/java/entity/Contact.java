@@ -1,4 +1,4 @@
-package entity.imp;
+package entity;
 
 
 public class Contact {

@@ -1,6 +1,6 @@
 package dao;
 
-import entity.imp.Contact;
+import entity.Contact;
 
 public interface IContactDao {
 
