@@ -1,11 +1,10 @@
-package service;
+package service.imp;
 
-import dao.ContactDao;
-import entity.Contact;
+import dao.imp.ContactDao;
 
 import java.util.Scanner;
 
-public class ComandLineService {
+public class ComandLineService  {
 
     private static final Scanner scanner = new Scanner(System.in);
 

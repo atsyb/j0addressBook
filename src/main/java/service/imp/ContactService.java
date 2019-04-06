@@ -1,7 +1,7 @@
-package service;
+package service.imp;
 
-import dao.ContactDao;
-import entity.Contact;
+import dao.imp.ContactDao;
+import entity.imp.Contact;
 
 import java.util.Scanner;
 

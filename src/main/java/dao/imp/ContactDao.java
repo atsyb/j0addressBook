@@ -1,6 +1,6 @@
-package dao;
+package dao.imp;
 
-import entity.Contact;
+import entity.imp.Contact;
 
 public class ContactDao {
 
