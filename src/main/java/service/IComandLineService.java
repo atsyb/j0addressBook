@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public interface IComandLineService {
 
-    static final Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
 
     static final ContactService service = new ContactService(new ContactDao());
 
@@ -21,7 +21,7 @@ public interface IComandLineService {
     public static void run() {
         boolean exit = true;
         do {
-            System.out.println("Chose your wish:");
+            System.out.println("  *** Chose your wish:");
             showMenu();
             int numberOfMenu = scanner.nextInt();
             switch (numberOfMenu) {
@@ -33,10 +33,11 @@ public interface IComandLineService {
                     break;
                 }
                 case 3: {
+                    service.delContact(scanner);
                     break;
                 }
                 case 4: {
-                    //service.allContact();
+                    service.allContact();
                     break;
                 }
                 case 0: {

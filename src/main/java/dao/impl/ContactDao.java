@@ -63,16 +63,23 @@ public class ContactDao implements IContactDao {
 
     public void showAllContact() {
         for (Contact storeContact : store) {
-            System.out.println(storeContact.toString());
+            System.out.println(storeContact == null ? "Null" : storeContact.toString());
+
         }
+
     }
 
     public void deleteContactById(int contactId) {
-        if (store[contactId] != null) {
-            System.out.println(store[contactId].toString() + "contact has been deleted");
-            store[contactId] = null;
-        } else {
-            System.out.println("No contact to delete!");
+        for (int argument = 0; argument < store.length; argument++) {
+            if (store[argument] != null && store[argument].getId() == contactId) {
+                System.out.println(store[argument].toString() + "contact has been deleted");
+                store[argument] = null;
+                break;
+            } else {
+                if (argument == store.length - 1) {
+                    System.out.println("No contact to delete!");
+                }
+            }
         }
     }
 

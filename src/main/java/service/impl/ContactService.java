@@ -2,10 +2,11 @@ package service.impl;
 
 import dao.impl.ContactDao;
 import entity.Contact;
+import service.IContactService;
 
 import java.util.Scanner;
 
-public class ContactService {
+public class ContactService implements IContactService {
 
     private ContactDao contactDao;
 
@@ -31,9 +32,16 @@ public class ContactService {
         contactDao.saveContact(contact);
 
         System.out.println("Thank you for saving your contact in this contact book.");
+    }
 
+    public void allContact(){
+        contactDao.showAllContact();
+    }
 
-
+    public void delContact(Scanner scanner){
+        System.out.println("Enter please ID of your contact person for DEL:");
+        int id = scanner.nextInt();
+        contactDao.deleteContactById(id);
     }
 
 }
