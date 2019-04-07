@@ -22,65 +22,62 @@ public class ContactDao implements IContactDao {
     }
 
     public Contact getContactById(int contactId) {
-        if (store[contactId] != null) {
-            System.out.println(store[contactId].toString());
-        } else {
-            System.out.println("There is no contact with ID=" + contactId);
-        }
-        return store[contactId];
-    }
-
-    public void getContactByName(String contactName) {
+        Contact contact = null;
         for (int argument = 0; argument < store.length; argument++) {
-            if (store[argument].getName() == contactName) {
-                System.out.println(store[argument].toString());
+            if (store[argument] != null && store[argument].getId() == contactId) {
+                contact = store[argument];
+                break;
+            } else {
+                if (argument == store.length - 1) {
+                    System.out.println("There is no contact with ID=" + contactId);
+                }
             }
-        }
-    }
-
-    public Contact updateContactById(int contactId, Contact contact) {
-        if (store[contactId] != null) {
-            store[contactId] = contact;
-            System.out.println("This contact was changed");
-        } else {
-            System.out.println("Contact for change not found");
         }
         return contact;
     }
 
-    public void updateContactByEntity(Contact contact) {
+    public Contact getContactByName(String contactName) {
+        Contact contact = null;
         for (int argument = 0; argument < store.length; argument++) {
-            if (store[argument] != null && store[argument].equals(contact)) {
-                store[argument] = contact;
-                System.out.println("This contact was changed");
-                System.out.println(contact.toString());
-                break;
-            } else {
-                System.out.println("Contact for change not found");
-            }
-        }
-    }
-
-    public void showAllContact() {
-        for (Contact storeContact : store) {
-            System.out.println(storeContact == null ? "Null" : storeContact.toString());
-
-        }
-
-    }
-
-    public void deleteContactById(int contactId) {
-        for (int argument = 0; argument < store.length; argument++) {
-            if (store[argument] != null && store[argument].getId() == contactId) {
-                System.out.println(store[argument].toString() + "contact has been deleted");
-                store[argument] = null;
+            if (store[argument] != null && store[argument].getName().equals(contactName)) {
+                System.out.println(store[argument].getName());
+                contact = store[argument];
+                System.out.println(store[argument].toString());
                 break;
             } else {
                 if (argument == store.length - 1) {
-                    System.out.println("No contact to delete!");
+                    System.out.println("Contact name " + contactName + " not found");
                 }
             }
         }
+        return contact;
+    }
+
+    public Contact updateContactById(int contactId, Contact contact) {
+        for (int argument = 0; argument < store.length; argument++) {
+            if (store[argument] != null && store[argument].getId() == contactId) {
+                store[argument] = contact;
+                store[argument].setId(contactId);
+                contact = store[argument];
+                System.out.println("This contact was changed");
+                break;
+            } else {
+                if (argument == store.length - 1) {
+                    System.out.println("Contact for change not found");
+                }
+            }
+        }
+        return contact;
+    }
+
+    public void getAllContact() {
+        for (Contact storeContact : store) {
+            System.out.println(storeContact == null ? "Null" : storeContact.toString());
+        }
+    }
+
+    public void deleteContactById(int contactId) {
+        deleteContactByEntity(getContactById(contactId));
     }
 
     public void deleteContactByEntity(Contact contact) {
@@ -91,7 +88,9 @@ public class ContactDao implements IContactDao {
                 System.out.println(contact.toString());
                 break;
             } else {
-                System.out.println("Contact for deleted not found");
+                if (argument == store.length - 1) {
+                    System.out.println("Contact for deleted not found");
+                }
             }
         }
     }
