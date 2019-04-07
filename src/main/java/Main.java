@@ -1,7 +1,8 @@
 import service.IComandLineService;
+import service.impl.ComandLineService;
 
 public class Main {
     public static void main(String[] args) {
-        IComandLineService.run();
+        ComandLineService.start();
     }
 }
