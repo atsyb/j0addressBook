@@ -47,9 +47,8 @@ public interface IContactService {
     public void delContactById(Scanner scanner);
 
     /**
-     * @param scanner
      * not used in service
      */
-    public void delContactByEntity(Scanner scanner);
+    public void delContactByEntity();
 
 }

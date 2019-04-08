@@ -89,7 +89,7 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public void delContactByEntity(Scanner scanner) {
+    public void delContactByEntity() {
     }
 
 

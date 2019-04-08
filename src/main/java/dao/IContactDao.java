@@ -52,6 +52,7 @@ public interface IContactDao {
     /**
      * @param contact
      * Used in other methods, for example deleteContactById
+     * @see dao.impl.ContactDao
      */
     public void deleteContactByEntity(Contact contact);
 
