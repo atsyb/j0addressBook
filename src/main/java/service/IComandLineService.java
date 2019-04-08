@@ -5,12 +5,18 @@ import service.impl.ContactService;
 
 import java.util.Scanner;
 
+/**
+ * @version 1.0
+ */
 public interface IComandLineService {
 
     Scanner scanner = new Scanner(System.in);
 
     static final ContactService service = new ContactService(new ContactDao());
 
+    /**
+     * Drawing the main menu
+     */
     public static void showMenu() {
         System.out.println("1.Add contact;");
         System.out.println("2.Update contact (By Id)");
@@ -21,6 +27,9 @@ public interface IComandLineService {
         System.out.println("0.Exit.");
     }
 
+    /**
+     * Running a selection on the main menu
+     */
     public static void run() {
         boolean exit = true;
         do {
@@ -64,6 +73,9 @@ public interface IComandLineService {
         } while (exit);
     }
 
+    /**
+     * Drawing a contact editing menu
+     */
     public static void showMenuEditContact() {
         System.out.println("1.Edit contact name");
         System.out.println("2.Edit contact sur name");
@@ -71,6 +83,9 @@ public interface IComandLineService {
         System.out.println("0.Return to the main menu");
     }
 
+    /**
+     * Running a selection on the contact editing menu
+     */
     public static void runEditContact() {
         boolean exit = true;
         do {
