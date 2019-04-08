@@ -12,7 +12,11 @@ public interface IContactService {
 
     public void showContactByName(Scanner scanner);
 
-    public void editContactById(Scanner scanner);
+    public void editContactNameById(Scanner scanner);
+
+    public void editContactSurNameById(Scanner scanner);
+
+    public void editContactPhoneNumberById(Scanner scanner);
 
     public void showAllContact();
 
@@ -20,5 +24,4 @@ public interface IContactService {
 
     public void delContactByEntity(Scanner scanner);
 
-    public Contact getContactByEntity(Scanner scanner);
 }

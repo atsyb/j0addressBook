@@ -10,7 +10,11 @@ public interface IContactDao {
 
     public Contact getContactByName(String contactName);
 
-    public Contact updateContactById(int contactId, Contact contact);
+    public void saveContactNameById(int contactId, String contactName);
+
+    public void saveContactSurNameById(int contactId, String contactSurName);
+
+    public void saveContactPhoneNumberById(int contactId, String contactPhoneNumber);
 
     public void getAllContact();
 

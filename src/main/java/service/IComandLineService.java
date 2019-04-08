@@ -13,13 +13,14 @@ public interface IComandLineService {
 
     public static void showMenu() {
         System.out.println("1.Add contact;");
-        System.out.println("2.Update contact by Id");
+        System.out.println("2.Update contact (By Id)");
         System.out.println("3.Delete contact;");
         System.out.println("4.Show all contacts");
         System.out.println("5.Show contact by Id");
         System.out.println("6.Show contact by Name");
         System.out.println("0.Exit.");
     }
+
     public static void run() {
         boolean exit = true;
         do {
@@ -32,7 +33,7 @@ public interface IComandLineService {
                     break;
                 }
                 case 2: {
-                    service.editContactById(scanner);
+                    runEditContact();
                     break;
                 }
                 case 3: {
@@ -62,4 +63,43 @@ public interface IComandLineService {
             }
         } while (exit);
     }
+
+    public static void showMenuEditContact() {
+        System.out.println("1.Edit contact name");
+        System.out.println("2.Edit contact sur name");
+        System.out.println("3.Edit contact phone number");
+        System.out.println("0.Return to the main menu");
+    }
+
+    public static void runEditContact() {
+        boolean exit = true;
+        do {
+            System.out.println("  *** Edit *** Chose your wish:");
+            showMenuEditContact();
+            int numberOfMenu = Integer.parseInt(scanner.next().replaceAll("[^0-9+]", ""));
+            switch (numberOfMenu) {
+                case 1: {
+                    service.editContactNameById(scanner);
+                    break;
+                }
+                case 2: {
+                    service.editContactSurNameById(scanner);
+                    break;
+                }
+                case 3: {
+                    service.editContactPhoneNumberById(scanner);
+                    break;
+                }
+                case 0: {
+                    System.out.println("_");
+                    exit = false;
+                    break;
+                }
+                default: {
+                    System.out.println("Sorry. You enter wrong number of menu.Chose another number.");
+                }
+            }
+        } while (exit);
+    }
+
 }

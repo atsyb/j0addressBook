@@ -53,13 +53,12 @@ public class ContactDao implements IContactDao {
         return contact;
     }
 
-    public Contact updateContactById(int contactId, Contact contact) {
+    @Override
+    public void saveContactNameById(int contactId, String contactName) {
         for (int argument = 0; argument < store.length; argument++) {
             if (store[argument] != null && store[argument].getId() == contactId) {
-                store[argument] = contact;
-                store[argument].setId(contactId);
-                contact = store[argument];
-                System.out.println("This contact was changed");
+                store[argument].setName(contactName);
+                System.out.println("This contact Name was changed");
                 break;
             } else {
                 if (argument == store.length - 1) {
@@ -67,7 +66,36 @@ public class ContactDao implements IContactDao {
                 }
             }
         }
-        return contact;
+    }
+
+    @Override
+    public void saveContactSurNameById(int contactId, String contactSurName) {
+        for (int argument = 0; argument < store.length; argument++) {
+            if (store[argument] != null && store[argument].getId() == contactId) {
+                store[argument].setSurName(contactSurName);
+                System.out.println("This contact Sur Name was changed");
+                break;
+            } else {
+                if (argument == store.length - 1) {
+                    System.out.println("Contact for change not found");
+                }
+            }
+        }
+    }
+
+    @Override
+    public void saveContactPhoneNumberById(int contactId, String contactPhoneNumber) {
+        for (int argument = 0; argument < store.length; argument++) {
+            if (store[argument] != null && store[argument].getId() == contactId) {
+                store[argument].setPhoneNumber(contactPhoneNumber);
+                System.out.println("This contact Phone Number was changed");
+                break;
+            } else {
+                if (argument == store.length - 1) {
+                    System.out.println("Contact for change not found");
+                }
+            }
+        }
     }
 
     public void getAllContact() {
