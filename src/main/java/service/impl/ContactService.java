@@ -2,10 +2,14 @@ package service.impl;
 
 import dao.impl.ContactDao;
 import entity.Contact;
+import entity.ContactFields;
 import service.IContactService;
 
 import java.util.Objects;
 import java.util.Scanner;
+
+import static entity.ContactFields.*;
+import static service.IComandLineService.showMenuEditContact;
 
 public class ContactService implements IContactService {
 
@@ -59,9 +63,23 @@ public class ContactService implements IContactService {
     @Override
     public Contact alterContact(Scanner scanner) {
         Contact contact = getContact(scanner);
-        int id = contact.getId();
         if (Objects.nonNull(contact)) {
-            contact = createContact(scanner);
+            int id = contact.getId();
+            ContactFields field = FIELD_NAME;
+
+            int dd = FIELD_BIRTHDAY.ordinal();
+
+            //contact = createContact(scanner);
+            showMenuEditContact();
+              int number = scanner.nextInt();
+  /*
+            switch (number){
+                case fieldBirthday.:{
+                    System.out.println();
+                }
+            }
+*/
+
             return contactDao.saveContactById(contact, id);
         } else {
             System.out.println("Contact not found!");

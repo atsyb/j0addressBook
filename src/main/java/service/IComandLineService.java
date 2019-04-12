@@ -42,7 +42,7 @@ public interface IComandLineService {
                     break;
                 }
                 case 2: {
-                    System.out.println(service.alterContact(scanner).toString());
+                    service.alterContact(scanner);
                     break;
                 }
                 case 3: {
@@ -80,7 +80,7 @@ public interface IComandLineService {
         System.out.println("1.Edit contact name");
         System.out.println("2.Edit contact sur name");
         System.out.println("3.Edit contact phone number");
-        System.out.println("0.Return to the main menu");
+        //System.out.println("0.Return to the main menu");
     }
 
     /**
