@@ -4,6 +4,7 @@ import dao.impl.ContactDao;
 import entity.Contact;
 import service.IContactService;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ContactService implements IContactService {
@@ -15,7 +16,7 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public void addContact(Scanner scanner) {
+    public Contact createContact(Scanner scanner) {
         Contact contact = new Contact();
 
         System.out.println("Enter please name of your contact person:");
@@ -30,16 +31,22 @@ public class ContactService implements IContactService {
         String phoneNumber = scanner.next().replaceAll("[^0-9+]", "");
         contact.setPhoneNumber(phoneNumber);
 
-        contactDao.saveContact(contact);
-
-        System.out.println("Thank you for saving your contact in this contact book.");
+        return contact;
     }
 
     @Override
-    public void showContactById(Scanner scanner) {
+    public Contact addContact(Scanner scanner) {
+        Contact contact = createContact(scanner);
+        contactDao.saveContact(contact);
+        System.out.println("Thank you for saving your new contact in this contact book.");
+        return contact;
+    }
+
+    @Override
+    public Contact getContact(Scanner scanner) {
         System.out.println("Enter please ID of your contact person for SHOW:");
         int id = scanner.nextInt();
-        System.out.println(contactDao.getContactById(id) == null ? "" : contactDao.getContactById(id).toString());
+        return contactDao.getContactById(id);
     }
 
     @Override
@@ -47,6 +54,19 @@ public class ContactService implements IContactService {
         System.out.println("Enter please name of your contact person:");
         String name = scanner.next();
         contactDao.getContactByName(name);
+    }
+
+    @Override
+    public Contact alterContact(Scanner scanner) {
+        Contact contact = getContact(scanner);
+        int id = contact.getId();
+        if (Objects.nonNull(contact)) {
+            contact = createContact(scanner);
+            return contactDao.saveContactById(contact, id);
+        } else {
+            System.out.println("Contact not found!");
+            return null;
+        }
     }
 
     @Override

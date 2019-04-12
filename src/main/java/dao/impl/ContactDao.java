@@ -3,6 +3,8 @@ package dao.impl;
 import dao.IContactDao;
 import entity.Contact;
 
+import java.util.Objects;
+
 public class ContactDao implements IContactDao {
 
     public static int generator = 0;
@@ -14,11 +16,24 @@ public class ContactDao implements IContactDao {
             if (store[argument] == null) {
                 contact.setId(++generator);
                 store[argument] = contact;
+                System.out.println("This NEW contact was added in your contact book");
+                System.out.println(contact.toString());
+                break;
+            }
+        }
+    }
+
+    public Contact saveContactById(Contact contact, int contactId) {
+        for (int argument = 0; argument < store.length; argument++) {
+            if (store[argument] != null && store[argument].getId() == contactId) {
+                contact.setId(contactId);
+                store[argument] = contact;
                 System.out.println("This contact was added in your contact book");
                 System.out.println(contact.toString());
                 break;
             }
         }
+        return contact;
     }
 
     public Contact getContactById(int contactId) {
@@ -48,6 +63,17 @@ public class ContactDao implements IContactDao {
                 if (argument == store.length - 1) {
                     System.out.println("Contact name " + contactName + " not found");
                 }
+            }
+        }
+        return contact;
+    }
+
+    @Override
+    public Contact updateContact(Contact contact) {
+        for (Contact storeContacts : getStore()) {
+            if (Objects.equals(storeContacts.getId(), contact.getId())) {
+                storeContacts = contact;
+                return storeContacts;
             }
         }
         return contact;

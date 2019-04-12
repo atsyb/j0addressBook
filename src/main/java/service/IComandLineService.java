@@ -19,7 +19,7 @@ public interface IComandLineService {
      */
     public static void showMenu() {
         System.out.println("1.Add contact;");
-        System.out.println("2.Update contact (By Id)");
+        System.out.println("2.Update contact");
         System.out.println("3.Delete contact;");
         System.out.println("4.Show all contacts");
         System.out.println("5.Show contact by Id");
@@ -42,7 +42,7 @@ public interface IComandLineService {
                     break;
                 }
                 case 2: {
-                    runEditContact();
+                    System.out.println(service.alterContact(scanner).toString());
                     break;
                 }
                 case 3: {
@@ -54,7 +54,7 @@ public interface IComandLineService {
                     break;
                 }
                 case 5: {
-                    service.showContactById(scanner);
+                    service.getContact(scanner);
                     break;
                 }
                 case 6: {

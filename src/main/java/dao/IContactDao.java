@@ -21,6 +21,13 @@ public interface IContactDao {
      */
     public Contact getContactByName(String contactName);
 
+
+    /**
+     * @param contact
+     * @return
+     */
+    public Contact updateContact(Contact contact);
+
     /**
      * @param contactId
      * @param contactName
@@ -50,8 +57,7 @@ public interface IContactDao {
     public void deleteContactById(int contactId);
 
     /**
-     * @param contact
-     * Used in other methods, for example deleteContactById
+     * @param contact Used in other methods, for example deleteContactById
      * @see dao.impl.ContactDao
      */
     public void deleteContactByEntity(Contact contact);

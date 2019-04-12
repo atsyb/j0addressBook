@@ -9,17 +9,25 @@ public interface IContactService {
     /**
      * @param scanner
      */
-    public void addContact(Scanner scanner);
+    public Contact createContact(Scanner scanner);
+
+    public Contact addContact(Scanner scanner);
 
     /**
      * @param scanner
      */
-    public void showContactById(Scanner scanner);
+    public Contact getContact(Scanner scanner);
 
     /**
      * @param scanner
      */
     public void showContactByName(Scanner scanner);
+
+    /**
+     * @param scanner
+     * @return
+     */
+    public Contact alterContact(Scanner scanner);
 
     /**
      * @param scanner
