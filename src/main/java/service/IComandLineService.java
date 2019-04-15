@@ -12,12 +12,12 @@ public interface IComandLineService {
 
     Scanner scanner = new Scanner(System.in);
 
-    static final ContactService service = new ContactService(new ContactDao());
+    ContactService service = new ContactService(new ContactDao());
 
     /**
      * Drawing the main menu
      */
-    public static void showMenu() {
+    static void showMenu() {
         System.out.println("1.Add contact;");
         System.out.println("2.Update contact");
         System.out.println("3.Delete contact;");
@@ -30,7 +30,7 @@ public interface IComandLineService {
     /**
      * Running a selection on the main menu
      */
-    public static void run() {
+    static void run() {
         boolean exit = true;
         do {
             System.out.println("  *** Chose your wish:");
@@ -76,45 +76,13 @@ public interface IComandLineService {
     /**
      * Drawing a contact editing menu
      */
-    public static void showMenuEditContact() {
-        System.out.println("1.Edit contact name");
-        System.out.println("2.Edit contact sur name");
-        System.out.println("3.Edit contact phone number");
+    static void showMenuEditContact() {
+        System.out.println("Select a field to edit:");
+        System.out.println("  1.Edit contact name");
+        System.out.println("  2.Edit contact sur name");
+        System.out.println("  3.Edit contact phone number");
         //System.out.println("0.Return to the main menu");
     }
 
-    /**
-     * Running a selection on the contact editing menu
-     */
-    public static void runEditContact() {
-        boolean exit = true;
-        do {
-            System.out.println("  *** Edit *** Chose your wish:");
-            showMenuEditContact();
-            int numberOfMenu = Integer.parseInt(scanner.next().replaceAll("[^0-9+]", ""));
-            switch (numberOfMenu) {
-                case 1: {
-                    service.editContactNameById(scanner);
-                    break;
-                }
-                case 2: {
-                    service.editContactSurNameById(scanner);
-                    break;
-                }
-                case 3: {
-                    service.editContactPhoneNumberById(scanner);
-                    break;
-                }
-                case 0: {
-                    System.out.println("_");
-                    exit = false;
-                    break;
-                }
-                default: {
-                    System.out.println("Sorry. You enter wrong number of menu.Chose another number.");
-                }
-            }
-        } while (exit);
-    }
 
 }

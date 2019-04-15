@@ -4,62 +4,56 @@ import entity.Contact;
 
 public interface IContactDao {
 
-    /**
-     * @param contact
+    /** save
+     * @param contact person
      */
-    public void saveContact(Contact contact);
+    void saveContact(Contact contact);
 
-    /**
+    /** get
      * @param contactId
      * @return
      */
-    public Contact getContactById(int contactId);
+    Contact getContactById(int contactId);
 
     /**
      * @param contactName
      * @return
      */
-    public Contact getContactByName(String contactName);
+    Contact getContactByName(String contactName);
 
 
     /**
      * @param contact
      * @return
      */
-    public Contact updateContact(Contact contact);
+    Contact updateContact(Contact contact);
 
     /**
      * @param contactId
      * @param contactName
      */
-    public void saveContactNameById(int contactId, String contactName);
+    void saveContactNameById(int contactId, String contactName);
 
     /**
      * @param contactId
      * @param contactSurName
      */
-    public void saveContactSurNameById(int contactId, String contactSurName);
+    void saveContactSurNameById(int contactId, String contactSurName);
 
     /**
      * @param contactId
      * @param contactPhoneNumber
      */
-    public void saveContactPhoneNumberById(int contactId, String contactPhoneNumber);
+    void saveContactPhoneNumberById(int contactId, String contactPhoneNumber);
 
     /**
      * Print the entire array
      */
-    public void getAllContact();
+    void getAllContact();
 
     /**
      * @param contactId
      */
-    public void deleteContactById(int contactId);
-
-    /**
-     * @param contact Used in other methods, for example deleteContactById
-     * @see dao.impl.ContactDao
-     */
-    public void deleteContactByEntity(Contact contact);
+    void deleteContactById(int contactId);
 
 }

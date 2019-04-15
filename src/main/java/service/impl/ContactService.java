@@ -2,13 +2,11 @@ package service.impl;
 
 import dao.impl.ContactDao;
 import entity.Contact;
-import entity.ContactFields;
 import service.IContactService;
 
 import java.util.Objects;
 import java.util.Scanner;
 
-import static entity.ContactFields.*;
 import static service.IComandLineService.showMenuEditContact;
 
 public class ContactService implements IContactService {
@@ -48,7 +46,7 @@ public class ContactService implements IContactService {
 
     @Override
     public Contact getContact(Scanner scanner) {
-        System.out.println("Enter please ID of your contact person for SHOW:");
+        System.out.println("Enter please ID of your contact person:");
         int id = scanner.nextInt();
         return contactDao.getContactById(id);
     }
@@ -65,54 +63,57 @@ public class ContactService implements IContactService {
         Contact contact = getContact(scanner);
         if (Objects.nonNull(contact)) {
             int id = contact.getId();
-            ContactFields field = FIELD_NAME;
-
-            int dd = FIELD_BIRTHDAY.ordinal();
-
-            //contact = createContact(scanner);
-            showMenuEditContact();
-              int number = scanner.nextInt();
-  /*
-            switch (number){
-                case fieldBirthday.:{
-                    System.out.println();
-                }
-            }
-*/
-
+            System.out.println("ALTER: " + contact.toString());
+            contact = modifierFields(scanner, contact);
             return contactDao.saveContactById(contact, id);
         } else {
-            System.out.println("Contact not found!");
+            System.out.println("Contact for alter not found!");
             return null;
         }
     }
 
-    @Override
-    public void editContactNameById(Scanner scanner) {
-        System.out.println("Enter please ID of your contact person for EDIT name:");
-        int id = scanner.nextInt();
-        System.out.println("Enter please name of your contact person:");
-        String name = scanner.next();
-        contactDao.saveContactNameById(id, name);
+    private Contact modifierFields(Scanner scanner, Contact contact) {
+        showMenuEditContact();
+        int fieldNumber = scanner.nextInt();
+        switch (fieldNumber) {
+            case FIELD_NAME: {
+                System.out.println("     Enter new name:");
+                return editContactField(FIELD_NAME, contact, scanner);
+            }
+            case FIELD_SURNAME: {
+                System.out.println("     Enter new sur name:");
+                return editContactField(FIELD_SURNAME, contact, scanner);
+            }
+            case FIELD_PHONENUMBER: {
+                System.out.println("     Enter new phone number:");
+                return editContactField(FIELD_PHONENUMBER, contact, scanner);
+            }
+            default: {
+                System.out.println("Sorry, nothing to change");
+                return contact;
+            }
+        }
     }
 
-    @Override
-    public void editContactSurNameById(Scanner scanner) {
-        System.out.println("Enter please ID of your contact person for EDIT sur name:");
-        int id = scanner.nextInt();
-        System.out.println("Enter please sur name of your contact person:");
-        String surName = scanner.next();
-        contactDao.saveContactSurNameById(id, surName);
+    private Contact editContactField(int fieldId, Contact contact, Scanner scanner) {
+        String fieldValue = scanner.next();
+        switch (fieldId) {
+            case FIELD_NAME: {
+                contact.setName(fieldValue);
+                break;
+            }
+            case FIELD_SURNAME: {
+                contact.setSurName(fieldValue);
+                break;
+            }
+            case FIELD_PHONENUMBER: {
+                contact.setPhoneNumber(fieldValue);
+                break;
+            }
+        }
+        return contact;
     }
 
-    @Override
-    public void editContactPhoneNumberById(Scanner scanner) {
-        System.out.println("Enter please ID of your contact person for EDIT phone number:");
-        int id = scanner.nextInt();
-        System.out.println("Enter please phone number of your contact person:");
-        String phoneNumber = scanner.next();
-        contactDao.saveContactPhoneNumberById(id, phoneNumber);
-    }
 
     @Override
     public void showAllContact() {
@@ -125,10 +126,5 @@ public class ContactService implements IContactService {
         int id = scanner.nextInt();
         contactDao.deleteContactById(id);
     }
-
-    @Override
-    public void delContactByEntity() {
-    }
-
 
 }

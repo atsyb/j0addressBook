@@ -5,58 +5,44 @@ import entity.Contact;
 import java.util.Scanner;
 
 public interface IContactService {
-
-    /**
+    int FIELD_NAME = 1;
+    int FIELD_SURNAME = 2;
+    int FIELD_PHONENUMBER = 3;
+    int FIELD_EMAIL = 4;
+    int FIELD_BIRTHDAY = 5;
+    /** create Contact
      * @param scanner
      */
     public Contact createContact(Scanner scanner);
 
     public Contact addContact(Scanner scanner);
 
-    /**
-     * @param scanner
+    /** get Contact
+     * @param scanner Contact id
      */
     public Contact getContact(Scanner scanner);
 
     /**
-     * @param scanner
+     * @param scanner  Contact Name
      */
     public void showContactByName(Scanner scanner);
 
     /**
-     * @param scanner
-     * @return
+     * @param scanner id
+     * @return contact person
      */
     public Contact alterContact(Scanner scanner);
 
-    /**
-     * @param scanner
-     */
-    public void editContactNameById(Scanner scanner);
 
     /**
-     * @param scanner
-     */
-    public void editContactSurNameById(Scanner scanner);
-
-    /**
-     * @param scanner
-     */
-    public void editContactPhoneNumberById(Scanner scanner);
-
-    /**
-     *
+     * show All Contact
      */
     public void showAllContact();
 
-    /**
-     * @param scanner
+    /** del Contact By Id
+     * @param scanner id
      */
     public void delContactById(Scanner scanner);
 
-    /**
-     * not used in service
-     */
-    public void delContactByEntity();
 
 }
