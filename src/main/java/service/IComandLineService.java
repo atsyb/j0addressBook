@@ -1,6 +1,8 @@
 package service;
 
 import dao.impl.ContactDao;
+import exceptions.ErrorCode;
+import exceptions.ExceptionsAddressBook;
 import service.impl.ContactService;
 
 import java.util.Scanner;
@@ -33,45 +35,57 @@ public interface IComandLineService {
     static void run() {
         boolean exit = true;
         do {
-            System.out.println("  *** Chose your wish:");
-            showMenu();
-            int numberOfMenu = scanner.nextInt();
-            switch (numberOfMenu) {
-                case 1: {
-                    service.addContact(scanner);
-                    break;
+            try {
+                System.out.println("  *** Chose your wish:");
+                showMenu();
+                if (!scanner.hasNextInt()) {
+                    throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
                 }
-                case 2: {
-                    service.alterContact(scanner);
-                    break;
+                int numberOfMenu = scanner.nextInt();
+                switch (numberOfMenu) {
+                    case 1: {
+                        service.addContact(scanner);
+                        break;
+                    }
+                    case 2: {
+                        service.alterContact(scanner);
+                        break;
+                    }
+                    case 3: {
+                        service.delContactById(scanner);
+                        break;
+                    }
+                    case 4: {
+                        service.showAllContact();
+                        break;
+                    }
+                    case 5: {
+                        service.getContact(scanner);
+                        break;
+                    }
+                    case 6: {
+                        service.showContactByName(scanner);
+                        break;
+                    }
+                    case 0: {
+                        System.out.println("Thank you that use our app. Good bye.");
+                        exit = false;
+                        break;
+                    }
+                    default: {
+                        throw new ExceptionsAddressBook(ErrorCode.ENTERED_INTEGER_OUTOFRANGE);
+                        //System.out.println("Sorry. You enter wrong number of menu.Chose another number.");
+                    }
                 }
-                case 3: {
-                    service.delContactById(scanner);
-                    break;
-                }
-                case 4: {
-                    service.showAllContact();
-                    break;
-                }
-                case 5: {
-                    service.getContact(scanner);
-                    break;
-                }
-                case 6: {
-                    service.showContactByName(scanner);
-                    break;
-                }
-                case 0: {
-                    System.out.println("Thank you that use our app. Good bye.");
-                    exit = false;
-                    break;
-                }
-                default: {
-                    System.out.println("Sorry. You enter wrong number of menu.Chose another number.");
-                }
+
+            } catch (ExceptionsAddressBook e) {
+                System.out.println(e.getErrorCode().getMessageWithCode());
+                scanner.nextLine(); // discard non-int input
+                continue;           // restart loop, didn't get an integer input
             }
         } while (exit);
     }
+
 
     /**
      * Drawing a contact editing menu
