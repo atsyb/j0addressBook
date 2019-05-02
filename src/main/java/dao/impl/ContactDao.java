@@ -30,7 +30,7 @@ public class ContactDao implements IContactDao {
         }
     }
 
-    public Contact saveContactById(Contact contact, int contactId) {
+    public Contact saveContactById(Contact contact, int contactId) throws ExceptionsAddressBook {
         for (int argument = 0; argument < store.length; argument++) {
             if (store[argument] != null && store[argument].getId() == contactId) {
                 contact.setId(contactId);
@@ -38,6 +38,10 @@ public class ContactDao implements IContactDao {
                 System.out.println("Contact number " + contactId + " has been saved to your contact book");
                 System.out.println(contact.toString());
                 break;
+            } else {
+                if (argument == store.length - 1) {
+                    throw new ExceptionsAddressBook(ErrorCode.CONTACT_NOT_SAVED);
+                }
             }
         }
         return contact;
