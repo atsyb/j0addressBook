@@ -22,7 +22,10 @@ public class ContactDao implements IContactDao {
                 System.out.println(contact.toString());
                 break;
             } else {
-                throw new ExceptionsAddressBook(ErrorCode.CONTACT_NOT_SAVED);
+                if (argument == store.length - 1) {
+                    throw new ExceptionsAddressBook(ErrorCode.CONTACT_NOT_SAVED);
+                }
+
             }
         }
     }
