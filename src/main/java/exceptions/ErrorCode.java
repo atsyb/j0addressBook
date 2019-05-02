@@ -3,6 +3,7 @@ package exceptions;
 public enum ErrorCode {
     ENTERED_NOT_INTEGER(1, "Entered not integer"),
     ENTERED_INTEGER_OUTOFRANGE(2, "Entered integer out of range"),
+    CONTACT_NOT_SAVED (3,"Failed to save contact"),
     ;
 
     private final int codeId;

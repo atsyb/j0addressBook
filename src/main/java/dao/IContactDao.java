@@ -1,48 +1,49 @@
 package dao;
 
 import entity.Contact;
+import exceptions.ExceptionsAddressBook;
 
 public interface IContactDao {
 
     /** save
      * @param contact person
      */
-    void saveContact(Contact contact);
+    void saveContact(Contact contact) throws ExceptionsAddressBook;
 
     /** get
-     * @param contactId
-     * @return
+     * @param contactId id
+     * @return contact
      */
     Contact getContactById(int contactId);
 
     /**
-     * @param contactName
-     * @return
+     * @param contactName Name
+     * @return contact
      */
     Contact getContactByName(String contactName);
 
 
     /**
-     * @param contact
-     * @return
+     * @param contact contact
+     * @return contact
      */
     Contact updateContact(Contact contact);
 
     /**
-     * @param contactId
-     * @param contactName
+     * @param contactId id
+     * @param contactName Name
      */
     void saveContactNameById(int contactId, String contactName);
 
     /**
-     * @param contactId
-     * @param contactSurName
+     * @param contactId id
+     * @param contactSurName Name
      */
     void saveContactSurNameById(int contactId, String contactSurName);
 
     /**
-     * @param contactId
-     * @param contactPhoneNumber
+     * @param contactId id
+     * @param contactPhoneNumber phone
      */
     void saveContactPhoneNumberById(int contactId, String contactPhoneNumber);
 
@@ -52,7 +53,7 @@ public interface IContactDao {
     void getAllContact();
 
     /**
-     * @param contactId
+     * @param contactId id
      */
     void deleteContactById(int contactId);
 

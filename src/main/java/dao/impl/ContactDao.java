@@ -2,23 +2,27 @@ package dao.impl;
 
 import dao.IContactDao;
 import entity.Contact;
+import exceptions.ErrorCode;
+import exceptions.ExceptionsAddressBook;
 
 import java.util.Objects;
 
 public class ContactDao implements IContactDao {
 
-    public static int generator = 0;
+    private static int generator = 0;
 
-    Contact[] store = new Contact[10];
+    private Contact[] store = new Contact[2];
 
-    public void saveContact(Contact contact) {
-        for (int argument = 0; argument < store.length; argument++) {
+    public void saveContact(Contact contact) throws ExceptionsAddressBook {
+        for (int argument = 0; argument < store.length; ++argument) {
             if (store[argument] == null) {
                 contact.setId(++generator);
                 store[argument] = contact;
                 System.out.println("This NEW contact was added in your contact book");
                 System.out.println(contact.toString());
                 break;
+            } else {
+                throw new ExceptionsAddressBook(ErrorCode.CONTACT_NOT_SAVED);
             }
         }
     }
@@ -28,7 +32,7 @@ public class ContactDao implements IContactDao {
             if (store[argument] != null && store[argument].getId() == contactId) {
                 contact.setId(contactId);
                 store[argument] = contact;
-                System.out.println("Contact number "+contactId+" has been saved to your contact book");
+                System.out.println("Contact number " + contactId + " has been saved to your contact book");
                 System.out.println(contact.toString());
                 break;
             }
@@ -149,7 +153,7 @@ public class ContactDao implements IContactDao {
         }
     }
 
-    public Contact[] getStore() {
+    private Contact[] getStore() {
         return store;
     }
 }

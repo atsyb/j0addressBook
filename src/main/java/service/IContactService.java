@@ -1,6 +1,7 @@
 package service;
 
 import entity.Contact;
+import exceptions.ExceptionsAddressBook;
 
 import java.util.Scanner;
 
@@ -10,39 +11,46 @@ public interface IContactService {
     int FIELD_PHONENUMBER = 3;
     int FIELD_EMAIL = 4;
     int FIELD_BIRTHDAY = 5;
-    /** create Contact
-     * @param scanner
-     */
-    public Contact createContact(Scanner scanner);
-
-    public Contact addContact(Scanner scanner);
-
-    /** get Contact
-     * @param scanner Contact id
-     */
-    public Contact getContact(Scanner scanner);
 
     /**
-     * @param scanner  Contact Name
+     * create Contact
+     *
+     * @param scanner createContact
      */
-    public void showContactByName(Scanner scanner);
+    Contact createContact(Scanner scanner);
+
+    Contact addContact(Scanner scanner) throws ExceptionsAddressBook;
+
+    /**
+     * get Contact
+     *
+     * @param scanner Contact id
+     */
+    Contact getContact(Scanner scanner) throws ExceptionsAddressBook;
+
+    /**
+     * @param scanner Contact Name
+     */
+    void showContactByName(Scanner scanner);
 
     /**
      * @param scanner id
      * @return contact person
      */
-    public Contact alterContact(Scanner scanner);
+    Contact alterContact(Scanner scanner) throws ExceptionsAddressBook;
 
 
     /**
      * show All Contact
      */
-    public void showAllContact();
+    void showAllContact();
 
-    /** del Contact By Id
+    /**
+     * del Contact By Id
+     *
      * @param scanner id
      */
-    public void delContactById(Scanner scanner);
+    void delContactById(Scanner scanner) throws ExceptionsAddressBook;
 
 
 }

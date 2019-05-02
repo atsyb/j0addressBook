@@ -2,6 +2,8 @@ package service.impl;
 
 import dao.impl.ContactDao;
 import entity.Contact;
+import exceptions.ErrorCode;
+import exceptions.ExceptionsAddressBook;
 import service.IContactService;
 
 import java.util.Objects;
@@ -20,24 +22,26 @@ public class ContactService implements IContactService {
     @Override
     public Contact createContact(Scanner scanner) {
         Contact contact = new Contact();
+        try {
+            System.out.println("Enter please name of your contact person:");
+            String name = scanner.next();
+            contact.setName(name);
 
-        System.out.println("Enter please name of your contact person:");
-        String name = scanner.next();
-        contact.setName(name);
+            System.out.println("Enter please sur name of your contact person:");
+            String surName = scanner.next();
+            contact.setSurName(surName);
 
-        System.out.println("Enter please sur name of your contact person:");
-        String surName = scanner.next();
-        contact.setSurName(surName);
-
-        System.out.println("Enter please phone number of your contact person");
-        String phoneNumber = scanner.next().replaceAll("[^0-9+]", "");
-        contact.setPhoneNumber(phoneNumber);
-
+            System.out.println("Enter please phone number of your contact person");
+            String phoneNumber = scanner.next().replaceAll("[^0-9+]", "");
+            contact.setPhoneNumber(phoneNumber);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return contact;
     }
 
     @Override
-    public Contact addContact(Scanner scanner) {
+    public Contact addContact(Scanner scanner) throws ExceptionsAddressBook {
         Contact contact = createContact(scanner);
         contactDao.saveContact(contact);
         System.out.println("Thank you for saving your new contact in this contact book.");
@@ -45,8 +49,11 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Contact getContact(Scanner scanner) {
+    public Contact getContact(Scanner scanner) throws ExceptionsAddressBook {
         System.out.println("Enter please ID of your contact person:");
+        if (!scanner.hasNextInt()) {
+            throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
+        }
         int id = scanner.nextInt();
         return contactDao.getContactById(id);
     }
@@ -59,7 +66,7 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Contact alterContact(Scanner scanner) {
+    public Contact alterContact(Scanner scanner) throws ExceptionsAddressBook {
         Contact contact = getContact(scanner);
         if (Objects.nonNull(contact)) {
             int id = contact.getId();
@@ -72,8 +79,11 @@ public class ContactService implements IContactService {
         }
     }
 
-    private Contact modifierFields(Scanner scanner, Contact contact) {
+    private Contact modifierFields(Scanner scanner, Contact contact) throws ExceptionsAddressBook {
         showMenuEditContact();
+        if (!scanner.hasNextInt()) {
+            throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
+        }
         int fieldNumber = scanner.nextInt();
         switch (fieldNumber) {
             case FIELD_NAME: {
@@ -121,8 +131,11 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public void delContactById(Scanner scanner) {
+    public void delContactById(Scanner scanner) throws ExceptionsAddressBook {
         System.out.println("Enter please ID of your contact person for DEL:");
+        if (!scanner.hasNextInt()) {
+            throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
+        }
         int id = scanner.nextInt();
         contactDao.deleteContactById(id);
     }
