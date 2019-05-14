@@ -1,18 +1,34 @@
 package entity;
 
 
+import java.time.LocalDate;
+import java.util.Objects;
+
 public class Contact {
     private int id;
     private String name;
     private String surName;
     private String phoneNumber;
+    private int age;
+    private double height;
+    private boolean married;
+    private LocalDate dateOfCreation;
 
     public Contact() {
     }
 
-    public Contact(String name, String surName, String phoneNumber) {
+    public Contact(String name, String surName, String phoneNumber, int age, double height, boolean married, LocalDate dateOfCreation) {
         this.name = name;
         this.surName = surName;
+        this.phoneNumber = phoneNumber;
+        this.age = age;
+        this.height = height;
+        this.married = married;
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public Contact(String name, String phoneNumber) {
+        this.name = name;
         this.phoneNumber = phoneNumber;
     }
 
@@ -48,26 +64,40 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
+    public int getAge() { return age; }
+
+    public void setAge(int age) { this.age = age; }
+
+    public double getHeight() { return height; }
+
+    public void setHeight(double height) { this.height = height; }
+
+    public boolean isMarried() { return married; }
+
+    public void setMarried(boolean married) { this.married = married; }
+
+    public LocalDate getDateOfCreation() { return dateOfCreation; }
+
+    public void setDateOfCreation(LocalDate dateOfCreation) { this.dateOfCreation = dateOfCreation; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Contact contact = (Contact) o;
-
-        if (id != contact.id) return false;
-        if (name != null ? !name.equals(contact.name) : contact.name != null) return false;
-        if (surName != null ? !surName.equals(contact.surName) : contact.surName != null) return false;
-        return phoneNumber != null ? phoneNumber.equals(contact.phoneNumber) : contact.phoneNumber == null;
+        return id == contact.id &&
+                age == contact.age &&
+                Double.compare(contact.height, height) == 0 &&
+                married == contact.married &&
+                Objects.equals(name, contact.name) &&
+                Objects.equals(surName, contact.surName) &&
+                Objects.equals(phoneNumber, contact.phoneNumber) &&
+                Objects.equals(dateOfCreation, contact.dateOfCreation);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (surName != null ? surName.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        return result;
+        return Objects.hash(id, name, surName, phoneNumber, age, height, married, dateOfCreation);
     }
 
     @Override
@@ -77,6 +107,10 @@ public class Contact {
                 ", name='" + name + '\'' +
                 ", surName='" + surName + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", age=" + age +
+                ", height=" + height +
+                ", married=" + married +
+                ", dateOfCreation=" + dateOfCreation +
                 '}';
     }
 }
