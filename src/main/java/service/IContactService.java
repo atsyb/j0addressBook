@@ -9,8 +9,10 @@ public interface IContactService {
     int FIELD_NAME = 1;
     int FIELD_SURNAME = 2;
     int FIELD_PHONENUMBER = 3;
-    int FIELD_EMAIL = 4;
-    int FIELD_BIRTHDAY = 5;
+    int FIELD_AGE = 4;
+    int FIELD_HEIGHT = 5;
+    int FIELD_MARRIED = 6;
+
 
     /**
      * create Contact

@@ -34,6 +34,20 @@ public class ContactService implements IContactService {
             System.out.println("Enter please phone number of your contact person");
             String phoneNumber = scanner.next().replaceAll("[^0-9+]", "");
             contact.setPhoneNumber(phoneNumber);
+
+            System.out.println("Enter please sur name of your contact person:");
+            int age = scanner.nextInt();
+            contact.setAge(age);
+
+            System.out.println("Enter please sur name of your contact person:");
+            double height = scanner.nextDouble();
+            contact.setHeight(height);
+
+            System.out.println("Enter please sur name of your contact person:");
+            boolean married = scanner.nextBoolean();
+            contact.setMarried(married);
+
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -97,6 +111,18 @@ public class ContactService implements IContactService {
             case FIELD_PHONENUMBER: {
                 System.out.println("     Enter new phone number:");
                 return editContactField(FIELD_PHONENUMBER, contact, scanner);
+            }
+            case FIELD_AGE: {
+                System.out.println("     Enter new age:");
+                return editContactField(FIELD_AGE, contact, scanner);
+            }
+            case FIELD_HEIGHT: {
+                System.out.println("     Enter new height:");
+                return editContactField(FIELD_HEIGHT, contact, scanner);
+            }
+            case FIELD_MARRIED: {
+                System.out.println("     Enter new married:");
+                return editContactField(FIELD_MARRIED, contact, scanner);
             }
             default: {
                 System.out.println("Sorry, nothing to change");
