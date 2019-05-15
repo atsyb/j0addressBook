@@ -8,6 +8,7 @@ import service.IContactService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Objects;
 
 import static service.IComandLineService.showMenuEditContact;
@@ -15,6 +16,7 @@ import static service.IComandLineService.showMenuEditContact;
 public class ContactService implements IContactService {
 
     private ContactDao contactDao;
+
 
     public ContactService(ContactDao contactDao) {
         this.contactDao = contactDao;
@@ -62,6 +64,7 @@ public class ContactService implements IContactService {
                 throw new ExceptionsAddressBook(ErrorCode.ENTERED_INTEGER_MARRIED);
             }
         }
+        contact.setDateOfCreation(LocalDate.now());
 
         return contact;
     }
