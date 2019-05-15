@@ -5,14 +5,17 @@ import exceptions.ErrorCode;
 import exceptions.ExceptionsAddressBook;
 import service.impl.ContactService;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 /**
  * @version 1.0
  */
 public interface IComandLineService {
 
-    Scanner scanner = new Scanner(System.in);
+    BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     ContactService service = new ContactService(new ContactDao());
 
@@ -38,21 +41,26 @@ public interface IComandLineService {
             try {
                 System.out.println("  *** Chose your wish:");
                 showMenu();
-                if (!scanner.hasNextInt()) {
+                String stringOfMenu = reader.readLine();
+
+                if (!stringOfMenu.matches("\\d+")) {
+                    System.out.println("You need to select numbers from the menu!");
                     throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
                 }
-                int numberOfMenu = scanner.nextInt();
+
+                int numberOfMenu = Integer.valueOf(stringOfMenu);
                 switch (numberOfMenu) {
                     case 1: {
-                        service.addContact(scanner);
+                        service.addContact(reader);
                         break;
                     }
                     case 2: {
-                        service.alterContact(scanner);
+                        service.alterContact(reader);
                         break;
                     }
                     case 3: {
-                        service.delContactById(scanner);
+                        //service.delContactById(scanner);
+                        service.delContactById(reader);
                         break;
                     }
                     case 4: {
@@ -60,11 +68,11 @@ public interface IComandLineService {
                         break;
                     }
                     case 5: {
-                        service.getContact(scanner);
+                        service.getContact(reader);
                         break;
                     }
                     case 6: {
-                        service.showContactByName(scanner);
+                        service.showContactByName(reader);
                         break;
                     }
                     case 0: {
@@ -73,15 +81,19 @@ public interface IComandLineService {
                         break;
                     }
                     default: {
+                        System.out.println("Sorry. You enter wrong number of menu.Chose another number.");
                         throw new ExceptionsAddressBook(ErrorCode.ENTERED_INTEGER_OUTOFRANGE);
-                        //System.out.println("Sorry. You enter wrong number of menu.Chose another number.");
                     }
                 }
 
             } catch (ExceptionsAddressBook e) {
                 System.out.println(e.getErrorCode().getMessageWithCode());
-                scanner.nextLine(); // discard non-int input
+                // scanner.nextLine(); // discard non-int input
                 continue;           // restart loop, didn't get an integer input
+            } catch (NumberFormatException nfe) {
+                System.out.println("---NumberFormatException: " + nfe.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         } while (exit);
     }

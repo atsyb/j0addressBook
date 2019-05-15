@@ -3,7 +3,8 @@ package service;
 import entity.Contact;
 import exceptions.ExceptionsAddressBook;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 public interface IContactService {
     int FIELD_NAME = 1;
@@ -17,29 +18,29 @@ public interface IContactService {
     /**
      * create Contact
      *
-     * @param scanner createContact
+     * @param reader createContact
      */
-    Contact createContact(Scanner scanner);
+    Contact createContact(BufferedReader reader) throws ExceptionsAddressBook, IOException;
 
-    Contact addContact(Scanner scanner) throws ExceptionsAddressBook;
+    Contact addContact(BufferedReader reader) throws ExceptionsAddressBook, IOException;
 
     /**
      * get Contact
      *
-     * @param scanner Contact id
+     * @param reader Contact id
      */
-    Contact getContact(Scanner scanner) throws ExceptionsAddressBook;
+    Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException;
 
     /**
-     * @param scanner Contact Name
+     * @param reader Contact Name
      */
-    void showContactByName(Scanner scanner);
+    void showContactByName(BufferedReader reader) throws IOException;
 
     /**
-     * @param scanner id
+     * @param reader id
      * @return contact person
      */
-    Contact alterContact(Scanner scanner) throws ExceptionsAddressBook;
+    Contact alterContact(BufferedReader reader) throws ExceptionsAddressBook, IOException;
 
 
     /**
@@ -50,9 +51,9 @@ public interface IContactService {
     /**
      * del Contact By Id
      *
-     * @param scanner id
+     * @param reader id
      */
-    void delContactById(Scanner scanner) throws ExceptionsAddressBook;
+    void delContactById(BufferedReader reader) throws ExceptionsAddressBook, IOException;
 
 
 }

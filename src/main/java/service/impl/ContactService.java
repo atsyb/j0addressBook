@@ -6,8 +6,9 @@ import exceptions.ErrorCode;
 import exceptions.ExceptionsAddressBook;
 import service.IContactService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Objects;
-import java.util.Scanner;
 
 import static service.IComandLineService.showMenuEditContact;
 
@@ -20,72 +21,83 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Contact createContact(Scanner scanner) {
+    public Contact createContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         Contact contact = new Contact();
-        try {
-            System.out.println("Enter please name of your contact person:");
-            String name = scanner.next();
-            contact.setName(name);
+
+        System.out.println("Enter please name of your contact person:");
+        String name = reader.readLine();
+        contact.setName(name);
+
+        System.out.println("Enter please phone number of your contact person");
+        String phoneNumber = reader.readLine().replaceAll("[^0-9+]", "");
+        contact.setPhoneNumber(phoneNumber);
+
+        System.out.println("Want to add fields? [yes(Y)/no(<Enter>)]");
+        String wantAddFields = reader.readLine().toLowerCase();
+        if (wantAddFields.equals("y")) {
 
             System.out.println("Enter please sur name of your contact person:");
-            String surName = scanner.next();
+            String surName = reader.readLine();
             contact.setSurName(surName);
 
-            System.out.println("Enter please phone number of your contact person");
-            String phoneNumber = scanner.next().replaceAll("[^0-9+]", "");
-            contact.setPhoneNumber(phoneNumber);
-
-            System.out.println("Enter please sur name of your contact person:");
-            int age = scanner.nextInt();
+            System.out.println("Enter please age of your contact person:");
+            int age = Integer.valueOf(reader.readLine(), 10);
             contact.setAge(age);
 
-            System.out.println("Enter please sur name of your contact person:");
-            double height = scanner.nextDouble();
-            contact.setHeight(height);
+            System.out.println("Enter please height of your contact person:");
+            double height = Double.parseDouble(reader.readLine());
+            contact.setHeight(height); /* "-?\\d+(\\.\\d+)?" */
 
-            System.out.println("Enter please sur name of your contact person:");
-            boolean married = scanner.nextBoolean();
-            contact.setMarried(married);
-
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Сontact person married? [y/n]");
+            String isMarried = reader.readLine().toLowerCase();
+            boolean married;
+            if (isMarried.equals("y")) {
+                married = true;
+                contact.setMarried(married);
+            } else if (isMarried.equals("n")) {
+                married = false;
+                contact.setMarried(married);
+            } else {
+                System.out.println("  Married unknown! Set false.");
+                throw new ExceptionsAddressBook(ErrorCode.ENTERED_INTEGER_MARRIED);
+            }
         }
+
         return contact;
     }
 
     @Override
-    public Contact addContact(Scanner scanner) throws ExceptionsAddressBook {
-        Contact contact = createContact(scanner);
+    public Contact addContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
+        Contact contact = createContact(reader);
         contactDao.saveContact(contact);
         System.out.println("Thank you for saving your new contact in this contact book.");
         return contact;
     }
 
     @Override
-    public Contact getContact(Scanner scanner) throws ExceptionsAddressBook {
+    public Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         System.out.println("Enter please ID of your contact person:");
-        if (!scanner.hasNextInt()) {
-            throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
-        }
-        int id = scanner.nextInt();
+        //if (!scanner.hasNextInt()) {
+        //    throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
+        //}
+        int id = Integer.valueOf(reader.readLine());
         return contactDao.getContactById(id);
     }
 
     @Override
-    public void showContactByName(Scanner scanner) {
+    public void showContactByName(BufferedReader reader) throws IOException {
         System.out.println("Enter please name of your contact person:");
-        String name = scanner.next();
+        String name = reader.readLine();
         contactDao.getContactByName(name);
     }
 
     @Override
-    public Contact alterContact(Scanner scanner) throws ExceptionsAddressBook {
-        Contact contact = getContact(scanner);
+    public Contact alterContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
+        Contact contact = getContact(reader);
         if (Objects.nonNull(contact)) {
             int id = contact.getId();
             System.out.println("ALTER: " + contact.toString());
-            contact = modifierFields(scanner, contact);
+            contact = modifierFields(reader, contact);
             return contactDao.saveContactById(contact, id);
         } else {
             System.out.println("Contact for alter not found!");
@@ -93,36 +105,37 @@ public class ContactService implements IContactService {
         }
     }
 
-    private Contact modifierFields(Scanner scanner, Contact contact) throws ExceptionsAddressBook {
+    private Contact modifierFields(BufferedReader reader, Contact contact) throws ExceptionsAddressBook, IOException {
         showMenuEditContact();
-        if (!scanner.hasNextInt()) {
+        String fieldNumberStr = reader.readLine();
+        if (!fieldNumberStr.matches("\\d+")) {
             throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
         }
-        int fieldNumber = scanner.nextInt();
+        int fieldNumber = Integer.valueOf(fieldNumberStr);
         switch (fieldNumber) {
             case FIELD_NAME: {
                 System.out.println("     Enter new name:");
-                return editContactField(FIELD_NAME, contact, scanner);
+                return editContactField(FIELD_NAME, contact, reader);
             }
             case FIELD_SURNAME: {
                 System.out.println("     Enter new sur name:");
-                return editContactField(FIELD_SURNAME, contact, scanner);
+                return editContactField(FIELD_SURNAME, contact, reader);
             }
             case FIELD_PHONENUMBER: {
                 System.out.println("     Enter new phone number:");
-                return editContactField(FIELD_PHONENUMBER, contact, scanner);
+                return editContactField(FIELD_PHONENUMBER, contact, reader);
             }
             case FIELD_AGE: {
                 System.out.println("     Enter new age:");
-                return editContactField(FIELD_AGE, contact, scanner);
+                return editContactField(FIELD_AGE, contact, reader);
             }
             case FIELD_HEIGHT: {
                 System.out.println("     Enter new height:");
-                return editContactField(FIELD_HEIGHT, contact, scanner);
+                return editContactField(FIELD_HEIGHT, contact, reader);
             }
             case FIELD_MARRIED: {
                 System.out.println("     Enter new married:");
-                return editContactField(FIELD_MARRIED, contact, scanner);
+                return editContactField(FIELD_MARRIED, contact, reader);
             }
             default: {
                 System.out.println("Sorry, nothing to change");
@@ -131,8 +144,8 @@ public class ContactService implements IContactService {
         }
     }
 
-    private Contact editContactField(int fieldId, Contact contact, Scanner scanner) {
-        String fieldValue = scanner.next();
+    private Contact editContactField(int fieldId, Contact contact, BufferedReader reader) throws IOException {
+        String fieldValue = reader.readLine();
         switch (fieldId) {
             case FIELD_NAME: {
                 contact.setName(fieldValue);
@@ -150,20 +163,21 @@ public class ContactService implements IContactService {
         return contact;
     }
 
-
     @Override
     public void showAllContact() {
         contactDao.getAllContact();
     }
 
     @Override
-    public void delContactById(Scanner scanner) throws ExceptionsAddressBook {
+    public void delContactById(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         System.out.println("Enter please ID of your contact person for DEL:");
-        if (!scanner.hasNextInt()) {
+        try {
+            int id = Integer.parseInt(reader.readLine());
+            contactDao.deleteContactById(id);
+        } catch (NumberFormatException nfe) {
+            //throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER.getCodeId()+" ID must be an integer!");
             throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
         }
-        int id = scanner.nextInt();
-        contactDao.deleteContactById(id);
     }
 
 }
