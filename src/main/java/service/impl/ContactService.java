@@ -68,7 +68,7 @@ public class ContactService implements IContactService {
         return contact;
     }
 
-    public Contact loadContact(String name, String surName, String phoneNumber, int age, double height, boolean married) {
+    private Contact loadContact(String name, String surName, String phoneNumber, int age, double height, boolean married) {
         Contact contact = new Contact();
         contact.setName(name);
         contact.setPhoneNumber(phoneNumber);
@@ -89,11 +89,8 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
+    public Contact getContact(BufferedReader reader) throws IOException {
         System.out.println("Enter please ID of your contact person:");
-        //if (!scanner.hasNextInt()) {
-        //    throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
-        //}
         int id = Integer.valueOf(reader.readLine());
         return contactDao.getContactById(id);
     }
@@ -197,7 +194,7 @@ public class ContactService implements IContactService {
         String[] line;
         File fileToSave = new File(fileName);
         if (fileToSave.exists()) {
-            try (BufferedReader bReader = new BufferedReader(new FileReader(fileToSave)))  {
+            try (BufferedReader bReader = new BufferedReader(new FileReader(fileToSave))) {
                 System.out.println("Reading...");
                 while (bReader.read() != -1) {
                     line = bReader.readLine().split(";");
@@ -208,20 +205,23 @@ public class ContactService implements IContactService {
                             Integer.valueOf(line[FIELD_AGE]),
                             Double.valueOf(line[FIELD_HEIGHT]),
                             Boolean.valueOf(line[FIELD_MARRIED])
-                            );
+                    );
                     contactDao.saveContact(contact);
                 }
-            } catch (IOException | ExceptionsAddressBook e) {
+            } catch (ExceptionsAddressBook e) {
+                System.out.println(e.getErrorCode().getMessageWithCode());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+       /* else {
             System.out.println("[ createNewFile " + fileName + " ]");
             try {
                 fileToSave.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     public void unloadToFile(String fileName) {
