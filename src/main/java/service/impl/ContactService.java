@@ -6,8 +6,7 @@ import exceptions.ErrorCode;
 import exceptions.ExceptionsAddressBook;
 import service.IContactService;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -66,6 +65,18 @@ public class ContactService implements IContactService {
         }
         contact.setDateOfCreation(LocalDate.now());
 
+        return contact;
+    }
+
+    public Contact loadContact(String name, String surName, String phoneNumber, int age, double height, boolean married) {
+        Contact contact = new Contact();
+        contact.setName(name);
+        contact.setPhoneNumber(phoneNumber);
+        contact.setSurName(surName);
+        contact.setAge(age);
+        contact.setHeight(height);
+        contact.setMarried(married);
+        contact.setDateOfCreation(LocalDate.now());
         return contact;
     }
 
@@ -175,12 +186,65 @@ public class ContactService implements IContactService {
     public void delContactById(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         System.out.println("Enter please ID of your contact person for DEL:");
         try {
-            int id = Integer.parseInt(reader.readLine());
+            int id = Integer.valueOf(reader.readLine());
             contactDao.deleteContactById(id);
         } catch (NumberFormatException nfe) {
-            //throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER.getCodeId()+" ID must be an integer!");
             throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
         }
+    }
+
+    public void downloadFromFile(String fileName) {
+        String[] line;
+        File fileToSave = new File(fileName);
+        if (fileToSave.exists()) {
+            try (BufferedReader bReader = new BufferedReader(new FileReader(fileToSave)))  {
+                System.out.println("Reading...");
+                while (bReader.read() != -1) {
+                    line = bReader.readLine().split(";");
+                    Contact contact = loadContact(
+                            line[FIELD_NAME],
+                            line[FIELD_SURNAME],
+                            line[FIELD_PHONENUMBER],
+                            Integer.valueOf(line[FIELD_AGE]),
+                            Double.valueOf(line[FIELD_HEIGHT]),
+                            Boolean.valueOf(line[FIELD_MARRIED])
+                            );
+                    contactDao.saveContact(contact);
+                }
+            } catch (IOException | ExceptionsAddressBook e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("[ createNewFile " + fileName + " ]");
+            try {
+                fileToSave.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void unloadToFile(String fileName) {
+        File fileToSave = new File(fileName);
+        try (BufferedWriter bWrite = new BufferedWriter(new FileWriter(fileToSave))) {
+            System.out.println("Write...");
+            for (Contact storeContacts : contactDao.getStore()) {
+                if (!Objects.isNull(storeContacts)) {
+                    bWrite.write(storeContacts.getId() + ";");
+                    bWrite.write(storeContacts.getName() + ";");
+                    bWrite.write(storeContacts.getSurName() + ";");
+                    bWrite.write(storeContacts.getPhoneNumber() + ";");
+                    bWrite.write(storeContacts.getAge() + ";");
+                    bWrite.write(storeContacts.getHeight() + ";");
+                    bWrite.write(storeContacts.isMarried() + ";");
+                    bWrite.write(storeContacts.getDateOfCreation().toString());
+                    bWrite.newLine();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -7,13 +7,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public interface IContactService {
+    int FIELD_ID = 0;
     int FIELD_NAME = 1;
     int FIELD_SURNAME = 2;
     int FIELD_PHONENUMBER = 3;
     int FIELD_AGE = 4;
     int FIELD_HEIGHT = 5;
     int FIELD_MARRIED = 6;
-
+    int FIELD_CRE_DATE = 7;
 
     /**
      * create Contact
@@ -54,6 +55,5 @@ public interface IContactService {
      * @param reader id
      */
     void delContactById(BufferedReader reader) throws ExceptionsAddressBook, IOException;
-
 
 }

@@ -160,7 +160,7 @@ public class ContactDao implements IContactDao {
         }
     }
 
-    private Contact[] getStore() {
+    public Contact[] getStore() {
         return store;
     }
 }

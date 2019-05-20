@@ -36,6 +36,7 @@ public interface IComandLineService {
      * Running a selection on the main menu
      */
     static void run() {
+        service.downloadFromFile("save_contact.txt");
         boolean exit = true;
         do {
             try {
@@ -76,6 +77,7 @@ public interface IComandLineService {
                         break;
                     }
                     case 0: {
+                        service.unloadToFile("save_contact.txt");
                         System.out.println("Thank you that use our app. Good bye.");
                         exit = false;
                         break;
