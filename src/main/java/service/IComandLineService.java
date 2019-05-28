@@ -78,7 +78,6 @@ public interface IComandLineService {
                         break;
                     }
                     case 0: {
-                        //service.unloadToFile("save_contact.txt");
                         service.backupContact("backup","contact");
                         System.out.println("Thank you that use our app. Good bye.");
                         exit = false;

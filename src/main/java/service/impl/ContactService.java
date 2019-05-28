@@ -254,9 +254,10 @@ public class ContactService implements IContactService {
         File backupDir = new File(dirName);
         boolean isDirectoryCreated = backupDir.mkdirs();
         if (isDirectoryCreated) {
-            String fileFullName = backupDir + "/" + fileName + System.currentTimeMillis() + ".csv";
-            unloadToFile(fileFullName);
+            System.out.println("Directory created: "+backupDir.getAbsolutePath());
         }
+        String fileFullName = backupDir + "/" + fileName + System.currentTimeMillis() + ".csv";
+        unloadToFile(fileFullName);
     }
 
     public void recoveryContact(String dirName, String fileName) {
