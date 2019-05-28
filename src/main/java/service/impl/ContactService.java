@@ -261,10 +261,10 @@ public class ContactService implements IContactService {
             List<File> listFile = Arrays.asList(Objects.requireNonNull(backupDir.listFiles()));
             listFile.forEach(System.out::println);
 
-            Path parentFolder = Paths.get(String.valueOf(backupDir));
+            Path backupFolder = Paths.get(String.valueOf(backupDir));
             Optional<File> mostRecentFile =
                     Arrays
-                            .stream(Objects.requireNonNull(parentFolder.toFile().listFiles()))
+                            .stream(Objects.requireNonNull(backupFolder.toFile().listFiles()))
                             .filter(File::isFile)
                             .filter(f -> f.getName().contains(fileName))
                             .max(Comparator.comparingLong(File::lastModified));
