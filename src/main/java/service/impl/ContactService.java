@@ -196,7 +196,7 @@ public class ContactService implements IContactService {
         File fileToSave = new File(fileName);
         if (fileToSave.exists()) {
             try (BufferedReader bReader = new BufferedReader(new FileReader(fileToSave))) {
-                System.out.println(">>>Reading from file: "+fileToSave.getAbsolutePath());
+                System.out.println(">>>Reading from file: " + fileToSave.getAbsolutePath());
                 while (bReader.read() != -1) {
                     line = bReader.readLine().split(";");
                     Contact contact = loadContact(
@@ -217,7 +217,10 @@ public class ContactService implements IContactService {
         } else {
             System.out.println("[ createNewFile " + fileName + " ]");
             try {
-                fileToSave.createNewFile();
+                boolean isFileCreated = fileToSave.createNewFile();
+                if (!isFileCreated){
+                    System.out.println("Something went wrong. The file was not created!");
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -249,9 +252,11 @@ public class ContactService implements IContactService {
 
     public void backupContact(String dirName, String fileName) {
         File backupDir = new File(dirName);
-        backupDir.mkdirs();
-        String fileFullName = backupDir + "/" + fileName + System.currentTimeMillis() + ".csv";
-        unloadToFile(fileFullName);
+        boolean isDirectoryCreated = backupDir.mkdirs();
+        if (isDirectoryCreated) {
+            String fileFullName = backupDir + "/" + fileName + System.currentTimeMillis() + ".csv";
+            unloadToFile(fileFullName);
+        }
     }
 
     public void recoveryContact(String dirName, String fileName) {
