@@ -7,8 +7,9 @@ import exceptions.ExceptionsAddressBook;
 import service.IContactService;
 
 import java.io.*;
+import java.nio.file.*;
 import java.time.LocalDate;
-import java.util.Objects;
+import java.util.*;
 
 import static service.IComandLineService.showMenuEditContact;
 
@@ -190,12 +191,12 @@ public class ContactService implements IContactService {
         }
     }
 
-    public void downloadFromFile(String fileName) {
+    private void downloadFromFile(String fileName) {
         String[] line;
         File fileToSave = new File(fileName);
         if (fileToSave.exists()) {
             try (BufferedReader bReader = new BufferedReader(new FileReader(fileToSave))) {
-                System.out.println("Reading...");
+                System.out.println(">>>Reading from file: "+fileToSave.getAbsolutePath());
                 while (bReader.read() != -1) {
                     line = bReader.readLine().split(";");
                     Contact contact = loadContact(
@@ -213,21 +214,20 @@ public class ContactService implements IContactService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-       /* else {
+        } else {
             System.out.println("[ createNewFile " + fileName + " ]");
             try {
                 fileToSave.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
     }
 
-    public void unloadToFile(String fileName) {
+    private void unloadToFile(String fileName) {
         File fileToSave = new File(fileName);
         try (BufferedWriter bWrite = new BufferedWriter(new FileWriter(fileToSave))) {
-            System.out.println("Write...");
+            System.out.println(">>>Write in to " + fileName);
             for (Contact storeContacts : contactDao.getStore()) {
                 if (!Objects.isNull(storeContacts)) {
                     bWrite.write(storeContacts.getId() + ";");
@@ -244,6 +244,40 @@ public class ContactService implements IContactService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void backupContact(String dirName, String fileName) {
+        File backupDir = new File(dirName);
+        backupDir.mkdirs();
+        String fileFullName = backupDir + "/" + fileName + System.currentTimeMillis() + ".csv";
+        unloadToFile(fileFullName);
+    }
+
+    public void recoveryContact(String dirName, String fileName) {
+        File backupDir = new File(dirName);
+
+        if (backupDir.isDirectory()) {
+            List<File> listFile = Arrays.asList(Objects.requireNonNull(backupDir.listFiles()));
+            listFile.forEach(System.out::println);
+
+            Path parentFolder = Paths.get(String.valueOf(backupDir));
+            Optional<File> mostRecentFile =
+                    Arrays
+                            .stream(Objects.requireNonNull(parentFolder.toFile().listFiles()))
+                            .filter(File::isFile)
+                            .filter(f -> f.getName().contains(fileName))
+                            .max(Comparator.comparingLong(File::lastModified));
+            if (mostRecentFile.isPresent()) {
+                downloadFromFile(mostRecentFile.get().getAbsolutePath());
+            } else {
+                System.out.println("Recovery file not found!");
+            }
+
+        } else {
+            System.out.println("Contacts not restored from: " + backupDir.getAbsolutePath());
+        }
+
 
     }
 

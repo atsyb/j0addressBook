@@ -36,7 +36,8 @@ public interface IComandLineService {
      * Running a selection on the main menu
      */
     static void run() {
-        service.downloadFromFile("save_contact.txt");
+        service.recoveryContact("backup","contact");
+
         boolean exit = true;
         do {
             try {
@@ -77,7 +78,8 @@ public interface IComandLineService {
                         break;
                     }
                     case 0: {
-                        service.unloadToFile("save_contact.txt");
+                        //service.unloadToFile("save_contact.txt");
+                        service.backupContact("backup","contact");
                         System.out.println("Thank you that use our app. Good bye.");
                         exit = false;
                         break;
@@ -90,8 +92,7 @@ public interface IComandLineService {
 
             } catch (ExceptionsAddressBook e) {
                 System.out.println(e.getErrorCode().getMessageWithCode());
-                // scanner.nextLine(); // discard non-int input
-                continue;           // restart loop, didn't get an integer input
+                //continue;
             } catch (NumberFormatException nfe) {
                 System.out.println("---NumberFormatException: " + nfe.getMessage());
             } catch (IOException e) {
