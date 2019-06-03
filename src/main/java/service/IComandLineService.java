@@ -27,6 +27,8 @@ public interface IComandLineService {
         System.out.println("4.Show all contacts");
         System.out.println("5.Show contact by Id");
         System.out.println("6.Show contact by Name");
+        System.out.println("7.Import contacts from csv-file");
+        System.out.println("8.Export contacts to csv-file");
         System.out.println("0.Exit.");
     }
 
@@ -34,8 +36,6 @@ public interface IComandLineService {
      * Running a selection on the main menu
      */
     static void run() {
-        service.recoveryContact("backup","contact");
-
         boolean exit = true;
         do {
             try {
@@ -75,8 +75,15 @@ public interface IComandLineService {
                         service.showContactByName(reader);
                         break;
                     }
+                    case 7: {
+                        service.recoveryContact("backup", "contact");
+                        break;
+                    }
+                    case 8: {
+                        service.backupContact("backup", "contact");
+                        break;
+                    }
                     case 0: {
-                        service.backupContact("backup","contact");
                         System.out.println("Thank you that use our app. Good bye.");
                         exit = false;
                         break;

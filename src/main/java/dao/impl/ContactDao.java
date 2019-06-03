@@ -11,7 +11,7 @@ public class ContactDao implements IContactDao {
 
     private static int generator = 0;
 
-    private Contact[] store = new Contact[5];
+    private Contact[] store = new Contact[10];
 
     public void saveContact(Contact contact) throws ExceptionsAddressBook {
         for (int argument = 0; argument < store.length; ++argument) {
