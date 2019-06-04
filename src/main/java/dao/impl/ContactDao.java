@@ -5,6 +5,7 @@ import dao.MySQLdb;
 import entity.Contact;
 import exceptions.ErrorCode;
 import exceptions.ExceptionsAddressBook;
+import service.impl.ContactService;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -86,19 +87,9 @@ public class ContactDao implements IContactDao {
         return contact;
     }
 
-    @Override
-    public Contact updateContact(Contact contact) {
-        for (Contact storeContacts : getStore()) {
-            if (Objects.equals(storeContacts.getId(), contact.getId())) {
-                storeContacts = contact;
-                return storeContacts;
-            }
-        }
-        return contact;
-    }
 
     @Override
-    public void insertContact(Contact contact) {
+    public Contact insertContact(Contact contact) {
         try (Connection conn = MySQLdb.getConnectionMyDB(); PreparedStatement stmt = conn.prepareStatement(getQuery(INSERT_PERSON))) {
             int i = 0;
             stmt.setInt(++i, contact.getId());
@@ -114,13 +105,14 @@ public class ContactDao implements IContactDao {
             System.out.println("ERROR insertContact!");
             e.printStackTrace();
         }
+        return contact;
     }
 
     @Override
     public Contact selectContactById(int contactId) {
         Contact contact = new Contact();
         try (Connection conn = MySQLdb.getConnectionMyDB(); PreparedStatement stmt = conn.prepareStatement(getQuery(SELECT_PERSON_BY_ID))) {
-            stmt.setLong(1, contactId);
+            stmt.setInt(1, contactId);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     int i = 0;
@@ -142,6 +134,41 @@ public class ContactDao implements IContactDao {
         }
         return contact;
     }
+
+    @Override
+    public Contact updateContactById(Contact contact, int contactId) {
+        try (Connection conn = MySQLdb.getConnectionMyDB(); PreparedStatement stmt = conn.prepareStatement(getQuery(UPDATE_PERSON_BY_ID))) {
+            int i = 0;
+            stmt.setString(++i, contact.getName());
+            stmt.setString(++i, contact.getSurName());
+            stmt.setString(++i, contact.getPhoneNumber());
+            stmt.setInt(++i, contact.getAge());
+            stmt.setDouble(++i, contact.getHeight());
+            stmt.setBoolean(++i, contact.isMarried());
+            stmt.setDate(++i, Date.valueOf(LocalDate.now()));
+            stmt.setInt(++i, contact.getId());
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("ERROR updateContactById!");
+            e.printStackTrace();
+        }
+        return contact;
+    }
+
+    @Override
+    public Contact deleteContactById(int contactId) {
+        Contact contact = selectContactById(contactId);
+        try (Connection conn = MySQLdb.getConnectionMyDB(); PreparedStatement stmt = conn.prepareStatement(getQuery(DELETE_PERSON_BY_ID))) {
+            int i = 0;
+            stmt.setInt(++i, contactId);
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("ERROR deleteContactById!");
+            e.printStackTrace();
+        }
+        return contact;
+    }
+
 
     @Override
     public void saveContactSurNameById(int contactId, String contactSurName) {
@@ -179,7 +206,7 @@ public class ContactDao implements IContactDao {
         }
     }
 
-    public void deleteContactById(int contactId) {
+    public void deleteContactByIdArr(int contactId) {
         deleteContactByEntity(getContactById(contactId));
     }
 

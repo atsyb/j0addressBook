@@ -43,7 +43,6 @@ public interface IContactService {
      */
     Contact alterContact(BufferedReader reader) throws ExceptionsAddressBook, IOException;
 
-
     /**
      * show All Contact
      */

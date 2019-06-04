@@ -3,8 +3,6 @@ package dao;
 import entity.Contact;
 import exceptions.ExceptionsAddressBook;
 
-import java.sql.SQLException;
-
 public interface IContactDao {
 
     /** save
@@ -29,15 +27,13 @@ public interface IContactDao {
      * @param contact contact
      * @return contact
      */
-    Contact updateContact(Contact contact);
 
-    /**
-     * @param contact contact
-     */
-    void insertContact(Contact contact);
 
+
+    Contact insertContact(Contact contact);
     Contact selectContactById(int contactId);
-
+    Contact updateContactById(Contact contact, int contactId);
+    Contact deleteContactById(int contactId);
     /**
      * @param contactId id
      * @param contactSurName Name
@@ -58,6 +54,6 @@ public interface IContactDao {
     /**
      * @param contactId id
      */
-    void deleteContactById(int contactId);
+    void deleteContactByIdArr(int contactId);
 
 }

@@ -111,12 +111,14 @@ public class ContactService implements IContactService {
             int id = contact.getId();
             System.out.println("ALTER: " + contact.toString());
             contact = modifierFields(reader, contact);
-            return contactDao.saveContactById(contact, id);
+            //return contactDao.saveContactById(contact, id);
+            return contactDao.updateContactById(contact,id);
         } else {
             System.out.println("Contact for alter not found!");
             return null;
         }
     }
+
 
     private Contact modifierFields(BufferedReader reader, Contact contact) throws ExceptionsAddressBook, IOException {
         showMenuEditContact();
@@ -186,6 +188,7 @@ public class ContactService implements IContactService {
         System.out.println("Enter please ID of your contact person for DEL:");
         try {
             int id = Integer.valueOf(reader.readLine());
+            //contactDao.deleteContactByIdArr(id);
             contactDao.deleteContactById(id);
         } catch (NumberFormatException nfe) {
             throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
