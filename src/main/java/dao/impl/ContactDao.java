@@ -1,11 +1,18 @@
 package dao.impl;
 
 import dao.IContactDao;
+import dao.MySQLdb;
 import entity.Contact;
 import exceptions.ErrorCode;
 import exceptions.ExceptionsAddressBook;
 
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.Objects;
+
+import static dao.QueryName.*;
+import static dao.QuerySQL.getQuery;
+
 
 public class ContactDao implements IContactDao {
 
@@ -91,18 +98,49 @@ public class ContactDao implements IContactDao {
     }
 
     @Override
-    public void saveContactNameById(int contactId, String contactName) {
-        for (int argument = 0; argument < store.length; argument++) {
-            if (store[argument] != null && store[argument].getId() == contactId) {
-                store[argument].setName(contactName);
-                System.out.println("This contact Name was changed");
-                break;
-            } else {
-                if (argument == store.length - 1) {
-                    System.out.println("Contact for change not found");
+    public void insertContact(Contact contact) {
+        try (Connection conn = MySQLdb.getConnectionMyDB(); PreparedStatement stmt = conn.prepareStatement(getQuery(INSERT_PERSON))) {
+            int i = 0;
+            stmt.setInt(++i, contact.getId());
+            stmt.setString(++i, contact.getName());
+            stmt.setString(++i, contact.getSurName());
+            stmt.setString(++i, contact.getPhoneNumber());
+            stmt.setInt(++i, contact.getAge());
+            stmt.setDouble(++i, contact.getHeight());
+            stmt.setBoolean(++i, contact.isMarried());
+            stmt.setDate(++i, Date.valueOf(LocalDate.now()));
+            stmt.execute();
+        } catch (SQLException e) {
+            System.out.println("ERROR insertContact!");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public Contact selectContactById(int contactId) {
+        Contact contact = new Contact();
+        try (Connection conn = MySQLdb.getConnectionMyDB(); PreparedStatement stmt = conn.prepareStatement(getQuery(SELECT_PERSON_BY_ID))) {
+            stmt.setLong(1, contactId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int i = 0;
+                    contact.setId(rs.getInt(++i));
+                    contact.setName(rs.getString(++i));
+                    contact.setSurName(rs.getString(++i));
+                    contact.setPhoneNumber(rs.getString(++i));
+                    contact.setAge(rs.getInt(++i));
+                    contact.setHeight(rs.getDouble(++i));
+                    contact.setMarried(rs.getBoolean(++i));
+                    contact.setDateOfCreation(rs.getDate(++i).toLocalDate());
+                } else {
+                    contact = null;
                 }
             }
+        } catch (SQLException e) {
+            System.out.println("ERROR selectContactByID!");
+            e.printStackTrace();
         }
+        return contact;
     }
 
     @Override

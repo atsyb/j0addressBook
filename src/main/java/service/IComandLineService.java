@@ -59,7 +59,6 @@ public interface IComandLineService {
                         break;
                     }
                     case 3: {
-                        //service.delContactById(scanner);
                         service.delContactById(reader);
                         break;
                     }
@@ -68,7 +67,7 @@ public interface IComandLineService {
                         break;
                     }
                     case 5: {
-                        service.getContact(reader);
+                        System.out.println(service.getContact(reader));
                         break;
                     }
                     case 6: {

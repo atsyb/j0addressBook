@@ -93,7 +93,8 @@ public class ContactService implements IContactService {
     public Contact getContact(BufferedReader reader) throws IOException {
         System.out.println("Enter please ID of your contact person:");
         int id = Integer.valueOf(reader.readLine());
-        return contactDao.getContactById(id);
+        //return contactDao.getContactById(id);
+        return contactDao.selectContactById(id);
     }
 
     @Override
@@ -208,7 +209,10 @@ public class ContactService implements IContactService {
                             Boolean.valueOf(line[FIELD_MARRIED])
                     );
                     contactDao.saveContact(contact);
+
+                    contactDao.insertContact(contact);
                 }
+
             } catch (ExceptionsAddressBook e) {
                 System.out.println(e.getErrorCode().getMessageWithCode());
             } catch (IOException e) {

@@ -10,8 +10,8 @@ public class MySQLdb extends QuerySQL {
     private static final String mySQL_pass = "root";
     private static final String mySQL_conn = mySQL_url + mySQL_db + mySQL_param;
 
-    public static void initDB() {
-        new QuerySQL();
+    public static boolean initDB() {
+        boolean flagInitDB = false;
         try {
             Connection conn = DriverManager.getConnection(mySQL_url + mySQL_param, mySQL_user, mySQL_pass);
             Statement stmt = conn.createStatement();
@@ -27,15 +27,16 @@ public class MySQLdb extends QuerySQL {
             conn = getConnectionMyDB();
             stmt = conn.createStatement();
             stmt.execute(getQuery(CREATE_TABLE_PERSON));
-            conn.close();
+            flagInitDB = true;
         } catch (SQLException e) {
-            System.out.println("ERROR_SQL!");
+            System.out.println("ERROR initDB!");
             e.printStackTrace();
         }
+        return flagInitDB;
     }
 
 
-    private static Connection getConnectionMyDB() throws SQLException {
+    public static Connection getConnectionMyDB() throws SQLException {
         return DriverManager.getConnection(mySQL_conn, mySQL_user, mySQL_pass);
     }
 

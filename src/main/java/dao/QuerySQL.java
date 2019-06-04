@@ -1,9 +1,9 @@
 package dao;
 
-class QuerySQL extends QueryName {
+public class QuerySQL extends QueryName {
     private static final String[] queries = new String[QueryName.MAX_INDEX];
 
-    QuerySQL() {
+    public QuerySQL() {
         queries[SELECT_TEST_1] = "SELECT 1 as n";
         queries[CREATE_SCHEMA] = "CREATE SCHEMA IF NOT EXISTS ? DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci";
         queries[DROP_SCHEMA] = "DROP SCHEMA IF EXISTS ?";
@@ -16,7 +16,7 @@ class QuerySQL extends QueryName {
 
     }
 
-    static String getQuery(final int queryId) {
+    public static String getQuery(final int queryId) {
         return queries[queryId];
     }
 }

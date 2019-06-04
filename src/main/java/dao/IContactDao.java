@@ -3,6 +3,8 @@ package dao;
 import entity.Contact;
 import exceptions.ExceptionsAddressBook;
 
+import java.sql.SQLException;
+
 public interface IContactDao {
 
     /** save
@@ -30,10 +32,11 @@ public interface IContactDao {
     Contact updateContact(Contact contact);
 
     /**
-     * @param contactId id
-     * @param contactName Name
+     * @param contact contact
      */
-    void saveContactNameById(int contactId, String contactName);
+    void insertContact(Contact contact);
+
+    Contact selectContactById(int contactId);
 
     /**
      * @param contactId id
