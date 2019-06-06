@@ -3,18 +3,17 @@ package dao;
 import entity.Contact;
 import exceptions.ExceptionsAddressBook;
 
+import java.sql.Connection;
+
 public interface IContactDao {
 
-    /** save
+    /**
+     * save
+     *
      * @param contact person
      */
     void saveContact(Contact contact) throws ExceptionsAddressBook;
 
-    /** get
-     * @param contactId id
-     * @return contact
-     */
-    Contact getContactById(int contactId);
 
     /**
      * @param contactName Name
@@ -24,36 +23,41 @@ public interface IContactDao {
 
 
     /**
-     * @param contact contact
+     * @param contact contact for insert
+     * @param conn DB
      * @return contact
+     * @throws ExceptionsAddressBook Exceptions
      */
-
-
-
-    Contact insertContact(Contact contact);
-    Contact selectContactById(int contactId);
-    Contact updateContactById(Contact contact, int contactId);
-    Contact deleteContactById(int contactId);
-    /**
-     * @param contactId id
-     * @param contactSurName Name
-     */
-    void saveContactSurNameById(int contactId, String contactSurName);
+    Contact insertContact(Contact contact, Connection conn) throws ExceptionsAddressBook;
 
     /**
-     * @param contactId id
-     * @param contactPhoneNumber phone
+     * @param contactId contact ID for select
+     * @param conn DB
+     * @return contact
+     * @throws ExceptionsAddressBook Exceptions
      */
-    void saveContactPhoneNumberById(int contactId, String contactPhoneNumber);
+    Contact selectContactById(int contactId, Connection conn) throws ExceptionsAddressBook;
+
+    /**
+     * @param contact contact for update
+     * @param contactId contact ID
+     * @param conn DB
+     * @return contact
+     * @throws ExceptionsAddressBook Exceptions
+     */
+    Contact updateContactById(Contact contact, int contactId, Connection conn) throws ExceptionsAddressBook;
+
+    /**
+     * @param contactId contact ID for delete
+     * @param conn DB
+     * @return contact
+     * @throws ExceptionsAddressBook Exceptions
+     */
+    Contact deleteContactById(int contactId, Connection conn) throws ExceptionsAddressBook;
 
     /**
      * Print the entire array
      */
     void getAllContact();
-
-    /**
-     * @param contactId id
-     */
-    void deleteContactByIdArr(int contactId);
 
 }

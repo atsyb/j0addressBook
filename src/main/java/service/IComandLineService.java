@@ -7,7 +7,6 @@ import service.impl.ContactService;
 
 import java.io.*;
 
-
 /**
  * @version 1.0
  */
@@ -95,9 +94,8 @@ public interface IComandLineService {
 
             } catch (ExceptionsAddressBook e) {
                 System.out.println(e.getErrorCode().getMessageWithCode());
-                //continue;
             } catch (NumberFormatException nfe) {
-                System.out.println("---NumberFormatException: " + nfe.getMessage());
+                System.out.println("! NumberFormatException: " + nfe.getMessage());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -113,7 +111,6 @@ public interface IComandLineService {
         System.out.println("  1.Edit contact name");
         System.out.println("  2.Edit contact sur name");
         System.out.println("  3.Edit contact phone number");
-        //System.out.println("0.Return to the main menu");
     }
 
 

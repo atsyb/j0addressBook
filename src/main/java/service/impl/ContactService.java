@@ -1,5 +1,6 @@
 package service.impl;
 
+import dao.MySQLdb;
 import dao.impl.ContactDao;
 import entity.Contact;
 import exceptions.ErrorCode;
@@ -17,8 +18,7 @@ public class ContactService implements IContactService {
 
     private ContactDao contactDao;
 
-
-    public ContactService(ContactDao contactDao) {
+    public ContactService(ContactDao contactDao)  {
         this.contactDao = contactDao;
     }
 
@@ -90,11 +90,11 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Contact getContact(BufferedReader reader) throws IOException {
+    public Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         System.out.println("Enter please ID of your contact person:");
         int id = Integer.valueOf(reader.readLine());
         //return contactDao.getContactById(id);
-        return contactDao.selectContactById(id);
+        return contactDao.selectContactById(id,MySQLdb.getConnectionMyDB());
     }
 
     @Override
@@ -112,7 +112,7 @@ public class ContactService implements IContactService {
             System.out.println("ALTER: " + contact.toString());
             contact = modifierFields(reader, contact);
             //return contactDao.saveContactById(contact, id);
-            return contactDao.updateContactById(contact,id);
+            return contactDao.updateContactById(contact,id, MySQLdb.getConnectionMyDB());
         } else {
             System.out.println("Contact for alter not found!");
             return null;
@@ -183,13 +183,14 @@ public class ContactService implements IContactService {
         contactDao.getAllContact();
     }
 
+
+
     @Override
     public void delContactById(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         System.out.println("Enter please ID of your contact person for DEL:");
         try {
             int id = Integer.valueOf(reader.readLine());
-            //contactDao.deleteContactByIdArr(id);
-            contactDao.deleteContactById(id);
+            contactDao.deleteContactById(id,  MySQLdb.getConnectionMyDB());
         } catch (NumberFormatException nfe) {
             throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
         }
@@ -213,7 +214,7 @@ public class ContactService implements IContactService {
                     );
                     contactDao.saveContact(contact);
 
-                    contactDao.insertContact(contact);
+                    contactDao.insertContact(contact, MySQLdb.getConnectionMyDB());
                 }
 
             } catch (ExceptionsAddressBook e) {

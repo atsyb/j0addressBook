@@ -1,7 +1,5 @@
 package entity;
 
-
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -80,7 +78,6 @@ public class Contact {
     public LocalDate getDateOfCreation() { return dateOfCreation; }
 
     public void setDateOfCreation(LocalDate dateOfCreation) { this.dateOfCreation = dateOfCreation; }
-    //public void setDateOfCreation(Date date) {   }
 
     @Override
     public boolean equals(Object o) {
@@ -115,6 +112,5 @@ public class Contact {
                 ", dateOfCreation=" + dateOfCreation +
                 '}';
     }
-
 
 }

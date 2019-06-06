@@ -5,6 +5,7 @@ import exceptions.ExceptionsAddressBook;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public interface IContactService {
     int FIELD_ID = 0;
@@ -30,7 +31,7 @@ public interface IContactService {
      *
      * @param reader Contact id
      */
-    Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException;
+    Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException, SQLException;
 
     /**
      * @param reader Contact Name
@@ -41,7 +42,7 @@ public interface IContactService {
      * @param reader id
      * @return contact person
      */
-    Contact alterContact(BufferedReader reader) throws ExceptionsAddressBook, IOException;
+    Contact alterContact(BufferedReader reader) throws ExceptionsAddressBook, IOException, SQLException;
 
     /**
      * show All Contact

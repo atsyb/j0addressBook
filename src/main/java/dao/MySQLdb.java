@@ -36,8 +36,14 @@ public class MySQLdb extends QuerySQL {
     }
 
 
-    public static Connection getConnectionMyDB() throws SQLException {
-        return DriverManager.getConnection(mySQL_conn, mySQL_user, mySQL_pass);
+    public static Connection getConnectionMyDB() {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(mySQL_conn, mySQL_user, mySQL_pass);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
     }
 
 
