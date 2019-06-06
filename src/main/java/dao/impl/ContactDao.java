@@ -7,6 +7,7 @@ import exceptions.ExceptionsAddressBook;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static dao.QueryName.*;
 import static dao.QuerySQL.getQuery;
@@ -15,40 +16,40 @@ public class ContactDao implements IContactDao {
 
     private static int generator = 0;
 
-    private Contact[] store = new Contact[10];
+    private ArrayList<Contact> store = new ArrayList<>();
 
-    public void saveContact(Contact contact) throws ExceptionsAddressBook {
-        for (int argument = 0; argument < store.length; ++argument) {
-            if (store[argument] == null) {
-                contact.setId(++generator);
-                store[argument] = contact;
-                System.out.println("This NEW contact was added in your contact book");
-                System.out.println(contact.toString());
-                break;
-            } else {
-                if (argument == store.length - 1) {
-                    throw new ExceptionsAddressBook(ErrorCode.CONTACT_NOT_SAVED);
-                }
-
-            }
-        }
+    public void saveContact(Contact contact) {
+//        for (int argument = 0; argument < store.length; ++argument) {
+//            if (store[argument] == null) {
+//                contact.setId(++generator);
+//                store[argument] = contact;
+//                System.out.println("This NEW contact was added in your contact book");
+//                System.out.println(contact.toString());
+//                break;
+//            } else {
+//                if (argument == store.length - 1) {
+//                    throw new ExceptionsAddressBook(ErrorCode.CONTACT_NOT_SAVED);
+//                }
+//
+//            }
+//        }
     }
 
 
     public Contact getContactByName(String contactName) {
         Contact contact = null;
-        for (int argument = 0; argument < store.length; argument++) {
-            if (store[argument] != null && store[argument].getName().equals(contactName)) {
-                System.out.println(store[argument].getName());
-                contact = store[argument];
-                System.out.println(store[argument].toString());
-                break;
-            } else {
-                if (argument == store.length - 1) {
-                    System.out.println("Contact name " + contactName + " not found");
-                }
-            }
-        }
+//        for (int argument = 0; argument < store.length; argument++) {
+//            if (store[argument] != null && store[argument].getName().equals(contactName)) {
+//                System.out.println(store[argument].getName());
+//                contact = store[argument];
+//                System.out.println(store[argument].toString());
+//                break;
+//            } else {
+//                if (argument == store.length - 1) {
+//                    System.out.println("Contact name " + contactName + " not found");
+//                }
+//            }
+//        }
         return contact;
     }
 
@@ -140,7 +141,7 @@ public class ContactDao implements IContactDao {
         }
     }
 
-    public Contact[] getStore() {
+    public ArrayList<Contact> getStore() {
         return store;
     }
 }
