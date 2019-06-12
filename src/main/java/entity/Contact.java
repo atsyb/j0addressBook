@@ -31,13 +31,9 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() {return id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
     public String getName() {
         return name;
@@ -84,7 +80,7 @@ public class Contact {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
-        return id == contact.id &&
+        return  id == contact.id &&
                 age == contact.age &&
                 Double.compare(contact.height, height) == 0 &&
                 married == contact.married &&

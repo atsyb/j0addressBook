@@ -12,7 +12,7 @@ public interface IContactDao {
      *
      * @param contact person
      */
-    void saveContact(Contact contact) throws ExceptionsAddressBook;
+    Contact saveContact(Contact contact) throws ExceptionsAddressBook;
 
 
     /**
@@ -21,39 +21,22 @@ public interface IContactDao {
      */
     Contact getContactByName(String contactName);
 
-
-    /**
-     * @param contact contact for insert
-     * @param conn DB
-     * @return contact
-     * @throws ExceptionsAddressBook Exceptions
-     */
-    Contact insertContact(Contact contact, Connection conn) throws ExceptionsAddressBook;
-
     /**
      * @param contactId contact ID for select
-     * @param conn DB
      * @return contact
      * @throws ExceptionsAddressBook Exceptions
      */
-    Contact selectContactById(int contactId, Connection conn) throws ExceptionsAddressBook;
+    Contact getContactById(int contactId) throws ExceptionsAddressBook;
 
-    /**
-     * @param contact contact for update
-     * @param contactId contact ID
-     * @param conn DB
-     * @return contact
-     * @throws ExceptionsAddressBook Exceptions
-     */
+    Contact insertContact(Contact contact, Connection conn) throws ExceptionsAddressBook;
     Contact updateContactById(Contact contact, int contactId, Connection conn) throws ExceptionsAddressBook;
 
     /**
      * @param contactId contact ID for delete
-     * @param conn DB
      * @return contact
      * @throws ExceptionsAddressBook Exceptions
      */
-    Contact deleteContactById(int contactId, Connection conn) throws ExceptionsAddressBook;
+    Contact deleteContactById(int contactId) throws ExceptionsAddressBook;
 
     /**
      * Print the entire array

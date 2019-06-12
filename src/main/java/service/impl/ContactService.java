@@ -1,6 +1,5 @@
 package service.impl;
 
-import dao.MySQLdb;
 import dao.impl.ContactDao;
 import entity.Contact;
 import exceptions.ErrorCode;
@@ -90,11 +89,10 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
+    public Contact getContact(BufferedReader reader) throws IOException {
         System.out.println("Enter please ID of your contact person:");
         int id = Integer.valueOf(reader.readLine());
-        //return contactDao.getContactById(id);
-        return contactDao.selectContactById(id,MySQLdb.getConnectionMyDB());
+        return contactDao.getContactById(id);
     }
 
     @Override
@@ -108,15 +106,14 @@ public class ContactService implements IContactService {
     public Contact alterContact(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         Contact contact = getContact(reader);
         if (Objects.nonNull(contact)) {
-            int id = contact.getId();
             System.out.println("ALTER: " + contact.toString());
             contact = modifierFields(reader, contact);
-            //return contactDao.saveContactById(contact, id);
-            return contactDao.updateContactById(contact,id, MySQLdb.getConnectionMyDB());
+            return contactDao.saveContact(contact);
         } else {
             System.out.println("Contact for alter not found!");
-            return null;
+
         }
+        return null;
     }
 
 
@@ -190,7 +187,7 @@ public class ContactService implements IContactService {
         System.out.println("Enter please ID of your contact person for DEL:");
         try {
             int id = Integer.valueOf(reader.readLine());
-            contactDao.deleteContactById(id,  MySQLdb.getConnectionMyDB());
+            contactDao.deleteContactById(id);
         } catch (NumberFormatException nfe) {
             throw new ExceptionsAddressBook(ErrorCode.ENTERED_NOT_INTEGER);
         }
@@ -214,7 +211,7 @@ public class ContactService implements IContactService {
                     );
                     contactDao.saveContact(contact);
 
-                    contactDao.insertContact(contact, MySQLdb.getConnectionMyDB());
+                    //contactDao.insertContact(contact, MySQLdb.getConnectionMyDB());
                 }
 
             } catch (ExceptionsAddressBook e) {
