@@ -28,9 +28,6 @@ public interface IContactDao {
      */
     Contact getContactById(int contactId) throws ExceptionsAddressBook;
 
-    Contact insertContact(Contact contact, Connection conn) throws ExceptionsAddressBook;
-    Contact updateContactById(Contact contact, int contactId, Connection conn) throws ExceptionsAddressBook;
-
     /**
      * @param contactId contact ID for delete
      * @return contact

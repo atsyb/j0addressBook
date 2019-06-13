@@ -70,7 +70,7 @@ public interface IComandLineService {
                         break;
                     }
                     case 6: {
-                        service.showContactByName(reader);
+                        System.out.println(service.showContactByName(reader));
                         break;
                     }
                     case 7: {

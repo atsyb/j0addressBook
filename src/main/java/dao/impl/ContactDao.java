@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Stream;
+
 
 
 public class ContactDao implements IContactDao {
@@ -41,15 +41,6 @@ public class ContactDao implements IContactDao {
         return optionalContact.orElse(null);
     }
 
-    @Override
-    public Contact insertContact(Contact contact, Connection conn) {
-        return contact;
-    }
-
-    @Override
-    public Contact updateContactById(Contact contact, int contactId, Connection conn) {
-        return contact;
-    }
 
     @Override
     public Contact deleteContactById(int contactId) {

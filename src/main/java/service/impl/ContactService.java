@@ -17,7 +17,7 @@ public class ContactService implements IContactService {
 
     private ContactDao contactDao;
 
-    public ContactService(ContactDao contactDao)  {
+    public ContactService(ContactDao contactDao) {
         this.contactDao = contactDao;
     }
 
@@ -96,10 +96,10 @@ public class ContactService implements IContactService {
     }
 
     @Override
-    public void showContactByName(BufferedReader reader) throws IOException {
+    public Contact showContactByName(BufferedReader reader) throws IOException {
         System.out.println("Enter please name of your contact person:");
         String name = reader.readLine();
-        contactDao.getContactByName(name);
+        return contactDao.getContactByName(name);
     }
 
     @Override
@@ -115,7 +115,6 @@ public class ContactService implements IContactService {
         }
         return null;
     }
-
 
     private Contact modifierFields(BufferedReader reader, Contact contact) throws ExceptionsAddressBook, IOException {
         showMenuEditContact();
@@ -181,7 +180,6 @@ public class ContactService implements IContactService {
     }
 
 
-
     @Override
     public void delContactById(BufferedReader reader) throws ExceptionsAddressBook, IOException {
         System.out.println("Enter please ID of your contact person for DEL:");
@@ -210,8 +208,6 @@ public class ContactService implements IContactService {
                             Boolean.valueOf(line[FIELD_MARRIED])
                     );
                     contactDao.saveContact(contact);
-
-                    //contactDao.insertContact(contact, MySQLdb.getConnectionMyDB());
                 }
 
             } catch (ExceptionsAddressBook e) {
@@ -223,7 +219,7 @@ public class ContactService implements IContactService {
             System.out.println("[ createNewFile " + fileName + " ]");
             try {
                 boolean isFileCreated = fileToSave.createNewFile();
-                if (!isFileCreated){
+                if (!isFileCreated) {
                     System.out.println("Something went wrong. The file was not created!");
                 }
             } catch (IOException e) {
@@ -259,7 +255,7 @@ public class ContactService implements IContactService {
         File backupDir = new File(dirName);
         boolean isDirectoryCreated = backupDir.mkdirs();
         if (isDirectoryCreated) {
-            System.out.println("Directory created: "+backupDir.getAbsolutePath());
+            System.out.println("Directory created: " + backupDir.getAbsolutePath());
         }
         String fileFullName = backupDir + "/" + fileName + System.currentTimeMillis() + ".csv";
         unloadToFile(fileFullName);

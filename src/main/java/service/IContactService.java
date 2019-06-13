@@ -34,9 +34,11 @@ public interface IContactService {
     Contact getContact(BufferedReader reader) throws ExceptionsAddressBook, IOException, SQLException;
 
     /**
+     * get Contact
+     *
      * @param reader Contact Name
      */
-    void showContactByName(BufferedReader reader) throws IOException;
+    Contact showContactByName(BufferedReader reader) throws IOException;
 
     /**
      * @param reader id
